@@ -1,55 +1,102 @@
+:root {
+    --ice-blue: #4ae2ff;
+    --deep-blue: rgba(10, 25, 47, 0.85);
+    --gold: #ffd100;
+}
+
 body {
-    background: #050a12 url('https://wallpaperaccess.com/full/1155017.jpg') no-repeat center top fixed;
-    background-size: cover;
-    color: #c4d6ff;
-    font-family: 'Verdana', sans-serif;
     margin: 0;
+    padding: 0;
+    background: #000 url('https://wallpaperaccess.com/full/1155017.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Verdana', sans-serif;
+    color: #e0e0e0;
+    overflow-x: hidden;
 }
 
-.container {
-    width: 1100px;
-    margin: 50px auto;
-    background: rgba(0, 10, 20, 0.85);
-    border: 2px solid #3a5675;
-    box-shadow: 0 0 20px #000;
-    display: flex;
+#canvas {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 1;
 }
 
-.sidebar {
-    width: 280px;
-    border-right: 1px solid #3a5675;
+.main-wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header { text-align: center; padding: 40px 0; }
+.logo { max-width: 500px; filter: drop-shadow(0 0 15px var(--ice-blue)); }
+
+.container { display: flex; gap: 20px; padding: 20px; align-items: flex-start; }
+
+.glass-box {
+    background: var(--deep-blue);
+    border: 1px solid rgba(74, 226, 255, 0.3);
+    border-radius: 8px;
     padding: 20px;
-    background: rgba(5, 15, 30, 0.9);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s ease;
 }
 
-.main-content {
-    flex: 1;
-    padding: 30px;
+.glass-box:hover {
+    border-color: var(--ice-blue);
+    transform: translateY(-5px);
 }
 
-h2, h3 {
-    color: #4ae2ff;
-    text-transform: uppercase;
-    text-shadow: 2px 2px 4px #000;
-    border-bottom: 1px solid #3a5675;
-    padding-bottom: 10px;
+.sidebar { width: 280px; }
+.main-content { flex: 1; text-align: center; }
+
+.warcraft-font {
+    font-family: 'Cinzel', serif;
+    color: var(--ice-blue);
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px #000;
 }
 
-.btn-wow {
+.box-title {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    border-bottom: 1px solid #333;
+    margin-top: 0;
+    padding-bottom: 5px;
+}
+
+.blizz-btn {
+    width: 100%;
+    padding: 12px;
     background: linear-gradient(to bottom, #1e4d7a, #0a1a2a);
-    border: 1px solid #4ae2ff;
-    color: #fff;
-    padding: 8px 15px;
-    cursor: pointer;
+    border: 1px solid var(--ice-blue);
+    color: white;
     font-weight: bold;
-    text-shadow: 1px 1px 1px #000;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-.btn-wow:hover {
-    background: #4ae2ff;
-    color: #000;
+.blizz-btn.gold {
+    background: linear-gradient(to bottom, #7a5d1e, #2a1f0a);
+    border-color: var(--gold);
 }
 
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th { background: #1a3a5a; padding: 10px; text-align: left; }
-td { padding: 10px; border-bottom: 1px solid #222; }
+.action-grid { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+.action-card {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+.action-card:hover { border-color: var(--ice-blue); background: rgba(74, 226, 255, 0.1); }
+.action-card img { border: 2px solid #333; margin-bottom: 10px; }
+
+.status-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+.online { background: #0f0; box-shadow: 0 0 10px #0f0; }
+.offline { background: #f00; }
