@@ -26,7 +26,7 @@ if(isset($_SESSION['user_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><p>Need help? <a href="https://discord.gg/YOUR_LINK" style="color: #5865F2; font-weight: bold;">Connect to our Discord</a></p>
     <meta charset="UTF-8">
     <title>Hazardous Server | WotLK</title>
     <link rel="stylesheet" href="style.css">
