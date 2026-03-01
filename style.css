@@ -128,3 +128,39 @@ body {
 .tt-bind, .tt-slot { color: #fff; font-size: 0.85rem; }
 .tt-desc { color: #ffd100; font-style: italic; margin-top: 8px; font-size: 0.9rem; }
 .tt-requirement { color: #fff; font-size: 0.85rem; margin-top: 5px; }
+/* Armory Table Styling */
+.armory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.3);
+}
+.armory-table th {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 2px solid var(--bright-blue);
+    color: var(--bright-blue);
+    font-family: 'Cinzel';
+}
+.armory-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 210, 255, 0.1);
+}
+.gold-text { color: #ffcc00; font-weight: bold; }
+
+/* Item Quality Colors */
+.legendary { color: #ff8000 !important; text-shadow: 0 0 5px #ff8000; cursor: help; }
+
+/* The Tooltip Box */
+#wow-tooltip {
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    pointer-events: none;
+    background: rgba(1, 10, 20, 0.95);
+    border: 1px solid #3a5675;
+    padding: 12px;
+    border-radius: 2px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    max-width: 280px;
+}
