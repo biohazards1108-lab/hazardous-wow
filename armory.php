@@ -1,32 +1,71 @@
 <?php 
 include('config.php'); 
-// Replace these with the actual Entry IDs from your Trinity Creator items
-$custom_items = [90000, 90001, 90002,90003,90004,90005,90006,90007,90008]; 
+session_start();
+
+// Custom Entry IDs from your Trinity Creator
+$custom_items = [90000, 90001, 90002, 90003, 90004, 90005, 90006, 90007, 90008]; 
 $item_list = implode(',', $custom_items);
 
-$query = "SELECT entry, name, description FROM world.item_template WHERE entry IN ($item_list)";
+// Querying your world database for item details
+$query = "SELECT entry, name, description, displayid FROM world.item_template WHERE entry IN ($item_list)";
 $result = $conn->query($query);
 ?>
 
-<div class="main-content">
-    <h2>Legendary Customs</h2>
-    <table border="1" width="100%">
-        <tr><th>Item</th><th>Description</th><th>Price</th><th>Action</th></tr>
-        <?php while($row = $result->fetch_assoc()): ?>
-        <tr>
-            <td><?php echo $row['name']; ?></td>
-            <td><?php echo $row['description']; ?></td>
-            <td>50 Vote / $5.00</td>
-            <td><button>Buy with Points</button> <button style="background:gold; color:black;">Donate via PayPal</button></td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Hazardous Armory</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-content">
+        <h2><img src="https://render.worldofwarcraft.com/us/icons/56/inv_sword_39.jpg" style="vertical-align: middle; height: 30px;"> Legendary Customs</h2>
+        <p>Forge your destiny with custom-made artifacts. Use Vote Points or Donate to support the server.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Stats / Description</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td style="color: #a335ee; font-weight: bold;">
+                        <?php echo $row['name']; ?>
+                    </td>
+                    <td style="font-style: italic; color: #ffd100;">
+                        "<?php echo $row['description'] ?: 'A powerful relic from the frozen wastes.'; ?>"
+                    </td>
+                    <td>50 Points / $5.00</td>
+                    <td>
+                        <a href="purchase.php?item_id=<?php echo $row['entry']; ?>">
+                            <button class="btn-wow">Buy with Points</button>
+                        </a>
+                        
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="display:inline;">
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
+                            <input type="hidden" name="item_name" value="Purchase: <?php echo $row['name']; ?>">
+                            <input type="hidden" name="amount" value="5.00">
+                            <input type="hidden" name="currency_code" value="USD">
+                            <button type="submit" class="btn-wow" style="background: linear-gradient(to bottom, #7a5d1e, #2a1f0a); border-color: gold;">Donate $5</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+        
+        <br>
+        <a href="index.php"><button class="btn-wow">Back to Home</button></a>
+    </div>
 </div>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-    <input type="hidden" name="cmd" value="_xclick">
-    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
-    <input type="hidden" name="item_name" value="Hazardous War Donation - 50 Points">
-    <input type="hidden" name="amount" value="5.00">
-    <input type="hidden" name="currency_code" value="USD">
-    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="Donate">
-</form>
+
+</body>
+</html>
