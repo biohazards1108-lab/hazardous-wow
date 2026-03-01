@@ -1,115 +1,109 @@
 :root {
-    --ice-glow: #00f2ff;
-    --deep-blue: #020b16;
-    --gold-trim: #c49a2d;
-    --border-blue: #1e4d7a;
+    --bright-blue: #00d2ff;
+    --ice-white: #e0f7ff;
+    --deep-void: #010811;
+    --gold-legendary: #ffcc00;
 }
 
 body {
     margin: 0;
-    padding: 0;
-    background: #000 url('https://w.wallhaven.cc/full/8o/wallhaven-8o36oy.jpg') no-repeat center top fixed;
+    background-color: var(--deep-void);
+    color: var(--ice-white);
+    font-family: 'Open Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND EFFECTS */
+.ice-background {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('https://w.wallhaven.cc/full/8o/wallhaven-8o36oy.jpg') no-repeat center top;
     background-size: cover;
-    color: #fff;
-    font-family: 'Nanum Myeongjo', serif;
+    z-index: -2;
 }
 
-.site-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 5;
+.skulls-layer {
+    position: absolute;
+    bottom: 0; width: 100%; height: 400px;
+    background: linear-gradient(to top, rgba(1, 8, 17, 1), transparent),
+                url('https://www.transparenttextures.com/patterns/dark-matter.png');
+    opacity: 0.6;
+    z-index: -1;
 }
 
-/* Nav Bar */
-.main-nav {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-}
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 30px;
+/* TYPOGRAPHY */
+.main-title {
     font-family: 'Cinzel', serif;
-    letter-spacing: 2px;
-    transition: 0.3s;
-    border-bottom: 2px solid transparent;
-}
-.nav-links a:hover, .nav-links a.active {
-    color: var(--ice-glow);
-    border-bottom: 2px solid var(--ice-glow);
-    text-shadow: 0 0 10px var(--ice-glow);
+    font-size: 5rem;
+    text-align: center;
+    color: var(--ice-white);
+    text-shadow: 0 0 20px var(--bright-blue), 0 0 40px #000;
+    margin-bottom: 0;
 }
 
-/* Hero Section */
-.hero { text-align: center; padding: 60px 0; }
-.main-logo { width: 600px; filter: drop-shadow(0 0 20px var(--ice-glow)); }
-
-.server-status-pill {
-    display: inline-block;
-    background: rgba(0,0,0,0.7);
-    padding: 8px 20px;
-    border-radius: 50px;
-    border: 1px solid var(--gold-trim);
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
+/* SHARDS (The Exotic Boxes) */
+.shard {
+    background: rgba(1, 15, 30, 0.8);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 210, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border-radius: 2px;
 }
 
-/* Exotic Boxes */
-.exotic-box {
-    background: rgba(2, 11, 22, 0.9);
-    border: 1px solid var(--border-blue);
-    box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.1), 0 10px 30px rgba(0,0,0,0.5);
-    margin-bottom: 20px;
-}
-.box-header {
-    background: linear-gradient(90deg, transparent, var(--border-blue), transparent);
+.shard-header {
+    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent);
     padding: 10px;
     text-align: center;
     font-family: 'Cinzel', serif;
-    color: var(--gold-trim);
-    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--bright-blue);
+    border-bottom: 1px solid rgba(0, 210, 255, 0.2);
 }
-.box-body { padding: 20px; }
 
-/* Inputs & Buttons */
-.blizz-input {
+/* INTERACTIVE ELEMENTS */
+.ice-input {
     width: 100%;
-    background: #050f1a;
-    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #1a3a5a;
     padding: 12px;
-    color: #fff;
+    color: white;
     margin-bottom: 10px;
     box-sizing: border-box;
 }
-.gold-btn {
+
+.btn-summon {
     width: 100%;
-    background: linear-gradient(to bottom, #c49a2d, #6e5210);
-    border: 1px solid #ffd100;
-    color: #fff;
     padding: 12px;
-    font-weight: bold;
-    cursor: pointer;
-}
-.gold-btn:hover { filter: brightness(1.2); }
-
-.ice-btn {
-    background: linear-gradient(to bottom, #00f2ff, #0066cc);
-    padding: 15px 40px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border: 1px solid white;
-}
-
-/* Layout */
-.content-grid { display: grid; grid-template-columns: 300px 1fr 300px; gap: 30px; padding: 20px; }
-
-.warcraft-title {
+    background: linear-gradient(to bottom, #005a8d, #001a2d);
+    border: 1px solid var(--bright-blue);
+    color: var(--bright-blue);
     font-family: 'Cinzel', serif;
-    font-size: 3rem;
-    color: var(--ice-glow);
-    text-shadow: 2px 2px 10px #000;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-summon:hover {
+    background: var(--bright-blue);
+    color: black;
+    box-shadow: 0 0 15px var(--bright-blue);
+}
+
+/* STATUS PILL */
+.status-glow {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.online { background: #00ffcc; box-shadow: 0 0 10px #00ffcc; }
+
+/* GRID */
+.grid-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1500px;
+    margin: 0 auto;
 }
