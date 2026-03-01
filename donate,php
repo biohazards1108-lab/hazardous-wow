@@ -1,0 +1,107 @@
+<?php 
+include('config.php'); 
+session_start();
+
+// Redirect if not logged in so we know who is donating
+if(!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$username = $_SESSION['username'];
+$account_id = $_SESSION['user_id'];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hazardous Server | Support the Realm</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Oswald:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<nav class="premium-nav">
+    <ul class="nav-tabs">
+        <li><a href="index.php">HOME</a></li>
+        <li><a href="armory.php">ARTIFACTS</a></li>
+        <li class="active"><a href="donate.php">DONATE</a></li>
+        <li><a href="https://discord.gg/yourlink">DISCORD</a></li>
+    </ul>
+</nav>
+
+<div class="wrapper" style="text-align:center; padding-top: 50px;">
+    <h1 style="font-family: 'Cinzel'; font-size: 4rem; text-shadow: 0 0 20px #00d2ff;">REWARDS VAULT</h1>
+    <p style="color: #00d2ff; font-family: 'Oswald';">Supporting the server grants you Voting Points used in the Artifact Armory.</p>
+
+    <div class="grid-layout" style="grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;">
+        
+        <div class="shard">
+            <div class="shard-header">RECRUIT PACK</div>
+            <div class="shard-body">
+                <h2 class="gold-text">10 POINTS</h2>
+                <p>Cost: $5.00 USD</p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
+                    <input type="hidden" name="item_name" value="10 Voting Points - Account: <?php echo $username; ?>">
+                    <input type="hidden" name="amount" value="5.00">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="custom" value="<?php echo $account_id; ?>">
+                    <input type="hidden" name="return" value="http://localhost:8181/hazardous-wow/donate.php?status=success">
+                    <button type="submit" class="btn-summon">PURCHASE</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="shard" style="border-color: #ffd100; transform: scale(1.05);">
+            <div class="shard-header" style="color: #ffd100;">CHAMPION PACK</div>
+            <div class="shard-body">
+                <h2 class="gold-text">50 POINTS</h2>
+                <p>Cost: $20.00 USD</p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
+                    <input type="hidden" name="item_name" value="50 Voting Points - Account: <?php echo $username; ?>">
+                    <input type="hidden" name="amount" value="20.00">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="custom" value="<?php echo $account_id; ?>">
+                    <input type="hidden" name="return" value="http://localhost:8181/hazardous-wow/donate.php?status=success">
+                    <button type="submit" class="btn-summon" style="background: linear-gradient(to bottom, #7a5d1e, #2a1f0a); border-color: #ffd100;">PURCHASE</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="shard">
+            <div class="shard-header">WARLORD PACK</div>
+            <div class="shard-body">
+                <h2 class="gold-text">150 POINTS</h2>
+                <p>Cost: $50.00 USD</p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
+                    <input type="hidden" name="item_name" value="150 Voting Points - Account: <?php echo $username; ?>">
+                    <input type="hidden" name="amount" value="50.00">
+                    <input type="hidden" name="currency_code" value="USD">
+                    <input type="hidden" name="custom" value="<?php echo $account_id; ?>">
+                    <input type="hidden" name="return" value="http://localhost:8181/hazardous-wow/donate.php?status=success">
+                    <button type="submit" class="btn-summon">PURCHASE</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <?php if(isset($_GET['status']) && $_GET['status'] == 'success'): ?>
+        <div class="shard" style="margin-top: 30px; border-color: #00ffcc;">
+            <p style="color: #00ffcc; font-weight: bold;">THANK YOU! Your donation is being processed. Points will be added shortly.</p>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script src="flare.js"></script>
+</body>
+</html>
