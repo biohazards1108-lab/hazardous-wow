@@ -22,3 +22,11 @@ $result = $conn->query($query);
         <?php endwhile; ?>
     </table>
 </div>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
+    <input type="hidden" name="item_name" value="Hazardous War Donation - 50 Points">
+    <input type="hidden" name="amount" value="5.00">
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="Donate">
+</form>
