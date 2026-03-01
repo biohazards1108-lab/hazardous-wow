@@ -19,7 +19,7 @@
     <div class="sidebar">
         <h3>Server Status</h3>
         <?php
-            $fp = @fsockopen("hazardouswar.servegame.com", 8085, $errno, $errstr, 1);
+            $fp = @fsockopen("127.0.0.1", 8085, $errno, $errstr, 1);
             if ($fp) { echo "<p class='status-on'>Online</p>"; fclose($fp); }
             else { echo "<p class='status-off'>Offline</p>"; }
         ?>
