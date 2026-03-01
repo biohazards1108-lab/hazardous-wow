@@ -8,7 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+<body>
+    <canvas id="canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0;"></canvas>
 
+    <div class="wrapper" style="position: relative; z-index: 1;">
+        </div>
+    
+    <script src="flare.js"></script>
+</body>
 <div class="ice-background">
     <div class="skulls-layer"></div>
     <div class="lich-king-summon"></div>
