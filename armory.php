@@ -7,65 +7,66 @@ $custom_items = [90000, 90001, 90002, 90003, 90004, 90005, 90006, 90007, 90008];
 $item_list = implode(',', $custom_items);
 
 // Querying your world database for item details
-$query = "SELECT entry, name, description, displayid FROM world.item_template WHERE entry IN ($item_list)";
+$query = "SELECT entry, name, description FROM world.item_template WHERE entry IN ($item_list)";
 $result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Hazardous Armory</title>
+    <meta charset="UTF-8">
+    <title>Hazardous Armory | Legendary Artifacts</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-    <div class="main-content">
-        <h2><img src="https://render.worldofwarcraft.com/us/icons/56/inv_sword_39.jpg" style="vertical-align: middle; height: 30px;"> Legendary Customs</h2>
-        <p>Forge your destiny with custom-made artifacts. Use Vote Points or Donate to support the server.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Stats / Description</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td style="color: #a335ee; font-weight: bold;">
-                        <?php echo $row['name']; ?>
-                    </td>
-                    <td style="font-style: italic; color: #ffd100;">
-                        "<?php echo $row['description'] ?: 'A powerful relic from the frozen wastes.'; ?>"
-                    </td>
-                    <td>50 Points / $5.00</td>
-                    <td>
-                        <a href="purchase.php?item_id=<?php echo $row['entry']; ?>">
-                            <button class="btn-wow">Buy with Points</button>
-                        </a>
-                        
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="display:inline;">
-                            <input type="hidden" name="cmd" value="_xclick">
-                            <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL@GMAIL.COM">
-                            <input type="hidden" name="item_name" value="Purchase: <?php echo $row['name']; ?>">
-                            <input type="hidden" name="amount" value="5.00">
-                            <input type="hidden" name="currency_code" value="USD">
-                            <button type="submit" class="btn-wow" style="background: linear-gradient(to bottom, #7a5d1e, #2a1f0a); border-color: gold;">Donate $5</button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        
-        <br>
-        <a href="index.php"><button class="btn-wow">Back to Home</button></a>
+<canvas id="canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0;"></canvas>
+
+<div class="wrapper" style="position: relative; z-index: 1;">
+    <header class="main-header">
+        <h1 class="main-title">VAULT OF THE LICH KING</h1>
+        <p style="text-align:center; color: #00d2ff; font-family: 'Cinzel';">Hover over items to reveal their power</p>
+    </header>
+
+    <div class="grid-layout" style="grid-template-columns: 1fr;">
+        <main class="shard content-shard">
+            <div class="shard-header">CUSTOM ARTIFACTS</div>
+            
+            <table class="armory-table">
+                <thead>
+                    <tr>
+                        <th>ITEM</th>
+                        <th>COST</th>
+                        <th>PURCHASE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td>
+                            <span class="item-link legendary" 
+                                  data-name="<?php echo htmlspecialchars($row['name']); ?>" 
+                                  data-desc="<?php echo htmlspecialchars($row['description']); ?>" 
+                                  data-quality="Legendary">
+                                [<?php echo $row['name']; ?>]
+                            </span>
+                        </td>
+                        <td class="gold-text">50 Vote Points</td>
+                        <td>
+                            <a href="purchase.php?item_id=<?php echo $row['entry']; ?>">
+                                <button class="btn-summon" style="width: auto; padding: 5px 20px;">BUY</button>
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </main>
     </div>
 </div>
 
+<script src="flare.js"></script>
+<script src="tooltip.js"></script>
 </body>
 </html>
