@@ -107,3 +107,24 @@ body {
     max-width: 1500px;
     margin: 0 auto;
 }
+#wow-tooltip {
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    pointer-events: none;
+    background: rgba(1, 10, 20, 0.95);
+    border: 1px solid #3a5675;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+    max-width: 250px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.tt-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 2px; }
+.tt-name.legendary { color: #ff8000; text-shadow: 0 0 5px #ff8000; }
+.tt-name.epic { color: #a335ee; }
+
+.tt-bind, .tt-slot { color: #fff; font-size: 0.85rem; }
+.tt-desc { color: #ffd100; font-style: italic; margin-top: 8px; font-size: 0.9rem; }
+.tt-requirement { color: #fff; font-size: 0.85rem; margin-top: 5px; }
