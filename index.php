@@ -1,4 +1,13 @@
-<?php include('config.php'); ?>
+<?php 
+include('config.php'); 
+
+// Live Gold Counter Logic
+// This sums up all the money from every character on the server
+$gold_query = $conn->query("SELECT SUM(money) as total_money FROM $char_db.characters");
+$gold_data = $gold_query->fetch_assoc();
+$total_gold = floor($gold_data['total_money'] / 10000); // Convert copper to gold
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,74 +17,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<body>
-    <canvas id="canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0;"></canvas>
 
-    <div class="wrapper" style="position: relative; z-index: 1;">
-        </div>
-    
-    <script src="flare.js"></script>
-</body>
-<div class="ice-background">
-    <div class="skulls-layer"></div>
-    <div class="lich-king-summon"></div>
-</div>
+<canvas id="canvas"></canvas>
 
 <div class="wrapper">
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="index.php" class="nav-item active">HOME</a>
-            <a href="register.php" class="nav-item">JOIN REALM</a>
-            <a href="armory.php" class="nav-item">ARMORY</a>
-            <a href="donate.php" class="nav-item">STORE</a>
-        </div>
-    </nav>
-
     <header class="main-header">
         <h1 class="main-title">HAZARDOUS WAR</h1>
-        <div class="server-status">
-            <?php
-            $fp = @fsockopen("127.0.0.1", 8085, $errno, $errstr, 0.5);
-            if ($fp) {
-                echo "<span class='status-glow online'></span> <span class='status-text'>FROSTREANNE ONLINE</span>";
-                fclose($fp);
-            } else {
-                echo "<span class='status-glow offline'></span> <span class='status-text'>REALM OFFLINE</span>";
-            }
-            ?>
-        </div>
     </header>
 
     <div class="grid-layout">
         <aside class="shard shard-left">
-            <div class="shard-header">CHAMPION LOGIN</div>
-            <form action="login.php" method="POST" class="shard-form">
-                <input type="text" name="username" placeholder="ACCOUNT NAME" class="ice-input">
-                <input type="password" name="password" placeholder="PASSWORD" class="ice-input">
-                <button type="submit" class="btn-summon">ENTER WORLD</button>
-            </form>
-            <div class="realmlist-shard">
-                <span>SET REALMLIST</span>
-                <code>hazardouswar.servegame.com</code>
+            <div class="shard-header">COMMUNITY</div>
+            <div class="shard-body" style="text-align:center; padding: 20px;">
+                <p>Join our official Discord to chat with the developers and get the latest updates.</p>
+                <a href="https://discord.gghttps://discord.gg/k2wt8Tjz" target="_blank">
+                    <button class="btn-summon" style="background: linear-gradient(to bottom, #5865F2, #3539df); border-color: #fff;">JOIN OUR DISCORD</button>
+                </a>
+            </div>
+
+            <div class="shard-header" style="margin-top:20px;">ECONOMY WATCH</div>
+            <div class="shard-body" style="text-align:center; padding: 15px;">
+                <span style="color: #ffd100; font-size: 1.2rem; font-weight: bold;">
+                    Server Wealth: <?php echo number_format($total_gold); ?>g
+                </span>
             </div>
         </aside>
 
         <main class="content-shard">
             <div class="welcome-text">
                 <h2>THE DEAD RISE AT HIS COMMAND</h2>
-                <p>Experience a high-rate WotLK realm featuring custom Trinity Creator artifacts and a balanced PvP ecosystem.</p>
                 <div class="cta-row">
-                    <a href="register.php" class="btn-primary">CREATE ACCOUNT</a>
+                    <a href="register.php" class="btn-summon" style="text-decoration:none; display:inline-block; width: 200px;">JOIN THE REALM</a>
                 </div>
             </div>
         </main>
 
         <aside class="shard shard-right">
-            <div class="shard-header">SUPPORT & BUGS</div>
-            <p class="shard-desc">Found a bug? The Lich King demands perfection. Report it to Discord below.</p>
-            <form action="report.php" method="POST" class="shard-form">
-                <textarea name="bug" placeholder="Describe the issue..." class="ice-input"></textarea>
-                <button type="submit" class="btn-summon">SEND REPORT</button>
+            <div class="shard-header">CHAMPION LOGIN</div>
+            <form action="login.php" method="POST" class="shard-form" style="padding:15px;">
+                <input type="text" name="username" placeholder="ACCOUNT NAME" class="ice-input">
+                <input type="password" name="password" placeholder="PASSWORD" class="ice-input">
+                <button type="submit" class="btn-summon">ENTER WORLD</button>
             </form>
         </aside>
     </div>
