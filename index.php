@@ -14,11 +14,31 @@ function formatWoWGold($copper) {
     return $output;
 }
 
-// Sample Auction Data (This will be replaced by your SQL query later)
-$auctions = [
-    ['item' => 'Shadowmourne', 'quality' => 'legendary', 'price' => 9990000, 'seller' => 'Arthas'],
-    ['item' => 'Battered Hilt', 'quality' => 'epic', 'price' => 1550075, 'seller' => 'Uther'],
-    ['item' => 'Titansteel Bar', 'quality' => 'rare', 'price' => 45000, 'seller' => 'Mogni']
+// Real Live Data Fetch
+$auctions = [];
+$query = "SELECT it.name, it.Quality, ah.buyout, ah.itemowner 
+          FROM auctionhouse ah 
+          LEFT JOIN item_template it ON ah.itemtemplate = it.entry 
+          ORDER BY ah.buyout DESC LIMIT 10";
+
+$result = $conn->query($query);
+
+if ($result && $result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        // Map numbers to rarity names for your CSS colors
+        $qualities = [0=>'common', 1=>'common', 2=>'uncommon', 3=>'rare', 4=>'epic', 5=>'legendary'];
+        $q_class = $qualities[$row['Quality']] ?? 'common';
+
+        $auctions[] = [
+            'item' => $row['name'] ?? 'Unknown Item',
+            'quality' => $q_class,
+            'price' => $row['buyout'],
+            'seller' => 'Owner: ' . $row['itemowner']
+        ];
+    }
+} else {
+    $auctions = [['item' => 'No Live Auctions', 'quality' => 'common', 'price' => 0, 'seller' => 'Marketplace']];
+}
 ];
 ?>
 <!DOCTYPE html>
