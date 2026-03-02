@@ -19,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         // DISCORD ALERT
         $webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
-        $data = ["content" => "❄️ **A New Hero Arrives!** Account `$username` has just been created on **Hazardous Server**!"];
-        
+       sendToDiscord("❄️ **A New Hero Arrives!** Account `$username` has just been created!");
         $options = [
             'http' => [
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
