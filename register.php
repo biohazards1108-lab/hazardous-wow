@@ -14,11 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // WoW password hashing (SRP6 for 3.3.5a)
     $hash = sha1(strtoupper($username) . ":" . strtoupper($password));
-
-    // Insert into the 'account' table
-    $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
-   $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
-
+   // Use only ONE of these lines
+$stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
+$stmt->bind_param("sss", $username, $hash, $email);
     if ($stmt->execute()) {
         // Send the alert to Discord using the function in config.php
         sendToDiscord("❄️ **A New Hero Arrives!** Account `$username` has just been created!");
