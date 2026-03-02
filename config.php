@@ -36,6 +36,16 @@ function sendToDiscord($message) {
         )
     );
     $context  = stream_context_create($options);
-    file_get_contents($webhook_url, false, $context);
+    file_get_contents($webhook_url, false, $context)
+}function sendToDiscord($message) {
+    global $webhook_url;
+    $data = array('content' => $message);
+    $ch = curl_init($webhook_url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    curl_close($ch);
 }
 ?>
