@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 // Copy your variables exactly from config.php here to test them
 $host = 'sql213.infinityfree.com'; // Check if this matches your panel!
 $db_user = 'if0_41282500'; 
-$db_pass = 'YOUR_ACTUAL_PASSWORD_HERE'; 
+$db_pass = 'Xanderkai0421' 
 $db_name = 'if0_41282500_wow';
 
 echo "<h3>Attempting Database Connection...</h3>";
