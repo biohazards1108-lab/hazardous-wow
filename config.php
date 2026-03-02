@@ -8,15 +8,6 @@ $webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlh
 
 $conn = new mysqli($host, $db_user, $db_pass, $auth_db);
 
-// The Test Logic
-if ($conn->connect_error) {
-    echo "<h1 style='color:red;'>Darn! Something is wrong.</h1>";
-    echo "<p>Fix: Your database password or hostname is incorrect in config.php.</p>";
-} else {
-    echo "<h1 style='color:green;'>Congrats! All is working!</h1>";
-    echo "<p>Your database is connected and ready for players.</p>";
-}
-
 function sendToDiscord($message) {
     global $webhook_url;
     $data = array('content' => $message);
