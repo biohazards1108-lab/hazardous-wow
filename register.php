@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 include('config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,24 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // WoW SRP6 Hashing
     $hash = sha1(strtoupper($username) . ":" . strtoupper($password));
 
-    // Database check
-    if ($conn) {
-        $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
-        $stmt->bind_param("sss", $username, $hash, $email);
+    // Database Insert
+    $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
+    $stmt->bind_param("sss", $username, $hash, $email);
 
-        if ($stmt->execute()) {
-            if (function_exists('sendToDiscord')) {
-                sendToDiscord("❄️ **New Hero:** `$username` has joined!");
-            }
-            echo "Account created successfully!";
-        } else {
-            echo "Registration failed: " . $conn->error;
-        }
-        $stmt->close();
+    if ($stmt->execute()) {
+        echo "<h2 style='color:green;'>Congrats! Your account $username is ready!</h2>";
+        echo "<p>You can now log in to the game.</p>";
+        sendToDiscord("❄️ **New Hero:** `$username` has successfully registered!");
     } else {
-        echo "Database connection error.";
+        echo "<h2 style='color:red;'>Darn! Registration failed.</h2>";
+        echo "<p>How to fix: This username might already be taken, or the 'account' table is missing a column.</p>";
     }
-} else {
-    echo "Direct access not allowed. Please use the form.";
+    $stmt->close();
 }
 ?>
