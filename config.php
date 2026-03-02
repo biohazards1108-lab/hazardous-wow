@@ -1,26 +1,22 @@
 <?php
-// Database Credentials
 $host = 'sql205.infinityfree.com';
 $db_user = 'if0_41282500';
 $db_pass = 'Darkbishop1109'; 
 $auth_db = 'if0_41282500_wow'; 
 
-// Discord Webhook
 $webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
 
-// Create Connection
 $conn = new mysqli($host, $db_user, $db_pass, $auth_db);
 
-// THE TEST YOU ASKED FOR
+// The Test Logic
 if ($conn->connect_error) {
-    echo "<div style='color:red; font-weight:bold;'>Darn! Connection failed: " . $conn->connect_error . "</div>";
-    echo "<p>How to fix: Check if your password 'Darkbishop1109' matches the one in your InfinityFree Hosting Settings.</p>";
+    echo "<h1 style='color:red;'>Darn! Something is wrong.</h1>";
+    echo "<p>Fix: Your database password or hostname is incorrect in config.php.</p>";
 } else {
-    // Only show this during testing; remove it later so users don't see it
-    // echo "<div style='color:green; font-weight:bold;'>Congrats! All is working!</div>";
+    echo "<h1 style='color:green;'>Congrats! All is working!</h1>";
+    echo "<p>Your database is connected and ready for players.</p>";
 }
 
-// Fixed Discord Function (Using cURL)
 function sendToDiscord($message) {
     global $webhook_url;
     $data = array('content' => $message);
@@ -32,4 +28,4 @@ function sendToDiscord($message) {
     curl_exec($ch);
     curl_close($ch);
 }
-// DO NOT ADD A ?> TAG HERE TO PREVENT ERRORS
+// Final check: ensure no text exists below this line without // slashes
