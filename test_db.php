@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 // Connection credentials
 $host = 'sql213.infinityfree.com'; 
 $db_user = 'if0_41282500'; 
-$db_pass = 'xanderkai0421'; 
+$db_pass = 'Xanderkai0421'; 
 $db_name = 'if0_41282500_wow';
 
 echo "<h3>Attempting Database Connection...</h3>";
