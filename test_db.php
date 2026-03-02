@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $host = 'sql213.infinityfree.com'; 
 $db_user = 'if0_41282500'; 
-$db_pass = 'Xanderkai0421'; // If this fails, replace with the 'Show/Hide' password from the panel
+$db_pass = 'Darkbishop1109'; // If this fails, replace with the 'Show/Hide' password from the panel
 $db_name = 'if0_41282500_wow';
 
 $conn = new mysqli($host, $db_user, $db_pass, $db_name);
