@@ -1,8 +1,15 @@
 <?php
-// Get these from your InfinityFree Control Panel -> MySQL Databases
-$host = 'sql205.infinityfree.com'; // e.g., sql205.infinityfree.com
-$db_user = 'if0_41282500'; // e.g., if0_38210000
-$db_pass = 'Darkbishop1109'; // The same one you put in GitHub Secrets
+$host = 'sql205.infinityfree.com';
+$db_user = 'if0_41282500';
+$db_pass = 'Darkbishop1109';
+$auth_db = 'if0_41282500_wow'; // Changed from $db_name to $auth_db
+
+$conn = new mysqli($host, $db_user, $db_pass, $auth_db);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
 
 // These must be the FULL names created in the panel
 $auth_db = 'if0_41282500_wow'; // e.g., if0_38210000_auth
