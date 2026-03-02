@@ -1,19 +1,15 @@
 <?php
-// Database Credentials
 $host = 'sql205.infinityfree.com';
 $db_user = 'if0_41282500';
-$db_pass = 'Darkbishop1109'; 
-$auth_db = 'if0_41282500_wow'; 
+$db_pass = 'Darkbishop1109';
+$auth_db = 'if0_41282500_wow'; // Changed from $db_name to $auth_db
 
-// Discord Webhook URL
-$webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
-
-// Create Connection
 $conn = new mysqli($host, $db_user, $db_pass, $auth_db);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+?>
 
 // Fixed Discord Function for InfinityFree (Using cURL)
 function sendToDiscord($message) {
