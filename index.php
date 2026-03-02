@@ -44,6 +44,14 @@ $featured_items = [
         .item-card {
             background: var(--panel); border: 1px solid rgba(255,255,255,0.1); padding: 20px;
             border-radius: 4px; position: relative; overflow: hidden; transition: 0.3s;
+            // Real SQL Query for Auction House (Insert this into your code later)
+/*
+$sql = "SELECT i.name, a.buyout, i.Quality 
+        FROM auctionhouse a 
+        JOIN item_template i ON a.itemtemplate = i.entry 
+        ORDER BY a.buyout DESC LIMIT 10";
+$result = $conn->query($sql);
+*/
         }
         .item-card:hover { border-color: var(--ice); box-shadow: 0 0 15px rgba(0, 204, 255, 0.2); transform: translateY(-5px); }
         .legendary { border-left: 4px solid var(--rarity-legendary); }
