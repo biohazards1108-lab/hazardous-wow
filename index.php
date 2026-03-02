@@ -7,83 +7,149 @@ include('config.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hazardous WoW | The Frozen North</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #00ccff;
+            --dark-gold: #c4950d;
+            --blizz-blue: #0066ff;
+            --bg-dark: #020712;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background: #050a14;
-            color: white;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* HD Background with Parallax effect */
+        .hero-section {
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://wallpaperaccess.com/full/1154030.jpg');
+            background: linear-gradient(to bottom, rgba(2,7,18,0.2) 0%, rgba(2,7,18,0.9) 100%), 
+                        url('https://images.alphacoders.com/108/1088448.jpg');
             background-size: cover;
+            background-position: center;
             background-attachment: fixed;
+            position: relative;
         }
-        .register-box {
-            background: rgba(10, 20, 35, 0.9);
-            padding: 40px;
-            border-radius: 5px;
-            border: 1px solid #00ccff;
-            box-shadow: 0 0 25px rgba(0, 204, 255, 0.3);
+
+        /* Navigation Bar */
+        nav {
+            position: absolute;
+            top: 0;
             width: 100%;
-            max-width: 400px;
-            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 100;
         }
-        h1 { color: #00ccff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
-        .status-bar { font-size: 12px; margin-bottom: 20px; }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid #333;
+
+        nav a {
             color: white;
-            box-sizing: border-box;
-        }
-        input:focus { border-color: #00ccff; outline: none; }
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #0066cc;
-            border: none;
-            color: white;
-            font-weight: bold;
+            text-decoration: none;
             text-transform: uppercase;
-            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 2px;
+            font-size: 14px;
             transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--primary-blue); text-shadow: 0 0 10px var(--primary-blue); }
+
+        /* Main Registration Card */
+        .main-card {
+            background: rgba(5, 15, 30, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border: 1px solid rgba(0, 204, 255, 0.2);
+            box-shadow: 0 0 60px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 42px;
+            color: #fff;
+            margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px var(--primary-blue);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
             margin-top: 10px;
         }
-        button:hover { background: #00ccff; box-shadow: 0 0 10px #00ccff; }
-    </style>
-</head>
-<body>
 
-    <div class="register-box">
-        <h1>Hazardous WoW</h1>
-        <div class="status-bar">
-            <?php
-            if ($conn->connect_error) {
-                echo "<span style='color:#ff4444;'>DARN! Database Disconnected</span>";
-            } else {
-                echo "<span style='color:#00ff00;'>CONGRATS! Database is Online</span>";
-            }
-            ?>
-        </div>
+        /* Form Styling */
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
 
-        <form action="register.php" method="POST">
-            <input type="text" name="username" placeholder="ACCOUNT NAME" required>
-            <input type="email" name="email" placeholder="EMAIL ADDRESS" required>
-            <input type="password" name="password" placeholder="PASSWORD" required>
-            <button type="submit">Create Account</button>
-        </form>
-        
-        <p style="font-size: 11px; color: #666; margin-top: 20px;">
-            Set Realmlist: <span style="color: #00ccff;">set realmlist hazardous.gamer.gd</span>
-        </p>
-    </div>
+        input:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            background: rgba(255,255,255,0.1);
+        }
 
-</body>
-</html>
+        .blizz-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(180deg, #008cff 0%, #0044bb 100%);
+            border: 1px solid var(--primary-blue);
+            color: white;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 20px;
+        }
+
+        .blizz-btn:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 30px rgba(0, 204, 255, 0.5);
+        }
+
+        /* Feature Section */
+        .features {
+            padding: 100px 20px;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            width: 300px;
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            transition: 0.3s;
