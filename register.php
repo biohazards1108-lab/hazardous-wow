@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert into the 'account' table
     $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
-    $stmt->bind_param("sss", $username, $hash, $email);
+   $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
 
     if ($stmt->execute()) {
         // Send the alert to Discord using the function in config.php
