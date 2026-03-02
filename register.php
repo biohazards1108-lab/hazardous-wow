@@ -9,23 +9,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = trim($_POST['password']);
     $email = trim($_POST['email']);
 
+    // WoW SRP6 Hashing
     $hash = sha1(strtoupper($username) . ":" . strtoupper($password));
 
+    // Database check
     if ($conn) {
         $stmt = $conn->prepare("INSERT INTO account (username, sha_pass_hash, email, vpoints) VALUES (?, ?, ?, 0)");
         $stmt->bind_param("sss", $username, $hash, $email);
 
         if ($stmt->execute()) {
-            sendToDiscord("❄️ **New Hero:** `$username` has joined!");
+            if (function_exists('sendToDiscord')) {
+                sendToDiscord("❄️ **New Hero:** `$username` has joined!");
+            }
             echo "Account created successfully!";
         } else {
             echo "Registration failed: " . $conn->error;
         }
         $stmt->close();
     } else {
-        echo "Database connection missing.";
+        echo "Database connection error.";
     }
 } else {
-    echo "Please use the registration form.";
+    echo "Direct access not allowed. Please use the form.";
 }
 ?>
