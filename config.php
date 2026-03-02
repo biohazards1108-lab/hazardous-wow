@@ -1,14 +1,19 @@
 <?php
-$host = '127.0.0.1';
-$db_user = 'root';
-$db_pass = 'ascent'; // Your provided password
-$auth_db = 'auth';
-$char_db = 'characters';
+// Get these from your InfinityFree Control Panel -> MySQL Databases
+$host = 'sql205.infinityfree.com'; // e.g., sql205.infinityfree.com
+$db_user = 'if0_41282500'; // e.g., if0_38210000
+$db_pass = 'Xanderkai0421'; // The same one you put in GitHub Secrets
+
+// These must be the FULL names created in the panel
+$auth_db = 'if0_41282500_wow'; // e.g., if0_38210000_auth
+$char_db = 'if0_41282500_wow'; // e.g., if0_38210000_characters
 
 // Discord Webhook URL
 $webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
 
-$conn = new mysqli($host, $db_user, $db_pass);
+// We connect using the $auth_db as the primary database
+$conn = new mysqli($host, $db_user, $db_pass, $auth_db);
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
