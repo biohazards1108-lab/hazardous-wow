@@ -1,17 +1,16 @@
-<nav class="main-nav">
-    <div class="logo">HAZARDOUS WoW</div>
-    <div class="tabs">
-        <a href="index.php">Auction House</a>
-        <a href="armory.php">Armory</a>
-        <a href="register.php">Create Account</a>
-        <a href="login.php">Login</a>
-        <a href="dashboard.php">Dashboard</a>
-    </div>
-</nav>
-
-<style>
-    .main-nav { background: #0a0f18; border-bottom: 2px solid #c4950d; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; }
-    .logo { color: #c4950d; font-size: 24px; font-weight: bold; letter-spacing: 2px; }
-    .tabs a { color: #e0e0e0; text-decoration: none; margin-left: 20px; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
-    .tabs a:hover { color: #c4950d; text-shadow: 0 0 10px #c4950d; }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HAZARDOUS WoW | WotLK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav style="background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--wow-gold); padding: 15px; text-align: center;">
+        <a href="index.php" style="color: var(--wow-gold); margin: 0 20px; text-decoration: none; font-family: 'Cinzel';">Home</a>
+        <a href="register.php" style="color: white; margin: 0 20px; text-decoration: none;">Register</a>
+        <a href="online.php" style="color: white; margin: 0 20px; text-decoration: none;">Players</a>
+        <a href="armory.php" style="color: white; margin: 0 20px; text-decoration: none;">Armory</a>
+        <a href="donate.php" style="color: white; margin: 0 20px; text-decoration: none;">Donate</a>
+    </nav>
