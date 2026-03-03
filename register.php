@@ -3,40 +3,40 @@ include('header.php');
 include('config.php'); 
 
 $msg = "";
-// Match the button name: register_btn
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register_btn'])) {
     $user = htmlspecialchars($_POST['username'] ?? 'Unknown');
     $email = htmlspecialchars($_POST['email'] ?? 'No Email');
-    $class = $_POST['char_class'] ?? 'Not Selected';
     
     $webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
 
-    $data = [
-        "content" => "🛡️ **New Hero Alert**",
+    $data = json_encode([
+        "content" => "⚡ **NEW ACCOUNT CREATED**",
         "embeds" => [[
-            "title" => "Account Registration",
-            "description" => "**$user** is preparing to enter the frozen wastes!",
-            "color" => 16291328, // Gold color
-            "fields" => [
-                ["name" => "Email", "value" => $email, "inline" => true],
-                ["name" => "Class", "value" => $class, "inline" => true]
-            ],
-            "footer" => ["text" => "Hazardous WoW Registration System"]
+            "title" => "Hero: " . $user,
+            "color" => 16291328,
+            "description" => "A new player has registered for Hazardous WoW."
         ]]
-    ];
+    ]);
 
-    // Using cURL for better compatibility with free hosting
     $ch = curl_init($webhook_url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $response = curl_exec($ch);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // CRITICAL FOR SOME HOSTS
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($data)
+    ]);
+
+    $result = curl_exec($ch);
+    $error = curl_error($ch);
     curl_close($ch);
 
-    $msg = "Account Request Successfully Sent!";
+    if ($error) {
+        $msg = "Connection Error: " . $error;
+    } else {
+        $msg = "Success! Check Discord.";
+    }
 }
 ?>
 
