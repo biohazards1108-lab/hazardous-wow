@@ -1,23 +1,24 @@
 <?php
-include('config.php');
-
-// CHANGE THIS to a secure password
-$secret_key = "Frostknight1109"; 
+// Password must match the one in your PowerShell script
+$secret_key = "Darkbishop1109"; 
 
 if (isset($_POST['key']) && $_POST['key'] === $secret_key) {
     
-    // Handle Player Count
+    // Update Player Count
     if (isset($_POST['count'])) {
         file_put_contents('online.txt', (int)$_POST['count']);
     }
 
-    // Handle Auction House Data
+    // Update Auction House
     if (isset($_POST['auctions'])) {
+        // We save the raw data coming from your local DB
         file_put_contents('auctions.json', $_POST['auctions']);
     }
 
     echo "Sync Successful";
 } else {
-    die("Access Denied");
+    // If someone tries to guess the URL without the key, they get this:
+    header('HTTP/1.0 403 Forbidden');
+    echo "Access Denied";
 }
 ?>
