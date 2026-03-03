@@ -1,7 +1,7 @@
 <?php
 // 1. SILENT DISCORD FUNCTION (Won't break the page if it fails)
 function send_to_discord($message, $webhook_url) {
-    if (!$webhook_url || $webhook_url == 'https://discord.gg/382PfYAedc') return;
+    if (!$webhook_url || $webhook_url == 'https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr') return;
 
     $data = json_encode([
         "username" => "Hazardous Bot",
