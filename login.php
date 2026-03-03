@@ -1,27 +1,12 @@
-<?php
-require_once 'config.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user = strtoupper($_POST['username']);
-    $pass = strtoupper($_POST['password']);
-    $hash = sha1($user . ':' . $pass);
-
-    $stmt = $conn->prepare("SELECT id FROM account WHERE username = ? AND sha_pass_hash = ?");
-    $stmt->bind_param("ss", $user, $hash);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if ($data = $res->fetch_assoc()) {
-        $_SESSION['user_id'] = $data['id'];
-        $_SESSION['username'] = $user;
-        header("Location: index.php");
-    }
-}
-?>
-<div class="form-container">
-    <h2>Login</h2>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <button type="submit" class="cta-btn">LOGIN</button>
+<?php require_once 'config.php'; ?>
+<div class="content-tab">
+    <h2 style="color: var(--ice-blue); margin-bottom: 20px;">RESTORE YOUR SOUL</h2>
+    <form action="login_logic.php" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit" class="cta-btn" style="width: 100%; margin-top: 20px;">LOGIN</button>
     </form>
+    <p style="margin-top: 15px; font-size: 0.8rem;">
+        New here? <a href="register.php" style="color: var(--gold);">Create an account</a>
+    </p>
 </div>
