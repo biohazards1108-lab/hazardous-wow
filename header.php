@@ -7,8 +7,9 @@
 </head>
 <body>
     <nav class="nav-bar">
-        <a href="index.php">HOME</a>
-        <a href="register.php">REGISTER</a>
-        <a href="armory.php">ARMORY</a>
-        <a href="online.php">PLAYERS</a>
+        <div class="nav-container">
+            <a href="index.php" class="nav-link gold-link">HOME</a>
+            <a href="register.php" class="nav-link gold-link">CREATE ACCOUNT</a>
+            <a href="login.php" class="nav-link gold-link">LOGIN</a>
+        </div>
     </nav>
