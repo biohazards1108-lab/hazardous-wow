@@ -2,12 +2,19 @@
 @include('config.php'); 
 error_reporting(E_ALL); ini_set('display_errors', 1);
 
-// FETCH DATA
+// FETCH DATA FROM SYNCED FILES
 $online_players = file_exists('online.txt') ? (int)@file_get_contents('online.txt') : 0;
 $auctions = file_exists('auctions.json') ? json_decode(@file_get_contents('auctions.json'), true) : [];
 $zones = file_exists('zones.json') ? json_decode(@file_get_contents('zones.json'), true) : [];
-$status_data = file_exists('status.txt') ? @file_get_contents('status.txt') : "OFFLINE";
-$uptime = file_exists('uptime.txt') && $status_data == "ONLINE" ? (floor((time() - (int)@file_get_contents('uptime.txt'))/60)) . "m" : "0m";
+$status_data = file_exists('status.txt') ? trim(@file_get_contents('status.txt')) : "OFFLINE";
+
+// CALCULATE UPTIME
+$uptime = "0m";
+if (file_exists('uptime.txt') && $status_data == "ONLINE") {
+    $diff = time() - (int)@file_get_contents('uptime.txt');
+    $d = floor($diff / 86400); $h = floor(($diff % 86400) / 3600); $m = floor(($diff % 3600) / 60);
+    $uptime = "{$d}d {$h}h {$m}m";
+}
 
 function formatWoWGold($c) { $g=floor($c/10000); $s=floor(($c%10000)/100); $cp=$c%100; return "<span class='g'>$g</span><span class='s'>$s</span><span class='c'>$cp</span>"; }
 ?>
@@ -15,86 +22,50 @@ function formatWoWGold($c) { $g=floor($c/10000); $s=floor(($c%10000)/100); $cp=$
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HAZARDOUS WoW</title>
+    <title>HAZARDOUS WoW | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root { --frost: #a3e4ff; --dk-bg: #010307; --panel: rgba(10, 20, 35, 0.8); }
+        :root { --frost: #a3e4ff; --dk-bg: #010409; --panel: rgba(13, 22, 38, 0.85); --accent: #d4af37; }
         body { margin: 0; background: var(--dk-bg); color: #e0e0e0; font-family: 'Quicksand', sans-serif; display: flex; height: 100vh; overflow: hidden; }
-        .bg-wrap { position: fixed; width: 100%; height: 100%; background: url('https://web.archive.org/web/20101204043250im_/http://www.worldofwarcraft.com/downloads/wallpapers/patch330/patch330-1280x1024.jpg') center/cover; z-index: -2; filter: brightness(0.15); }
-        
-        /* SIDEBAR NAVIGATION */
-        aside { width: 300px; background: rgba(0,0,0,0.95); border-right: 1px solid rgba(163,228,255,0.1); padding: 20px; overflow-y: auto; z-index: 10; }
-        .side-card { background: var(--panel); border: 1px solid #1a2a3a; padding: 15px; border-radius: 4px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .side-card h2 { font-family: 'Cinzel'; color: var(--frost); font-size: 14px; margin: 0 0 10px 0; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        
-        /* MAIN CENTER CONTENT */
-        main { flex: 1; padding: 40px; overflow-y: auto; position: relative; }
-        .hero-title { font-family: 'Cinzel'; font-size: 50px; text-align: center; color: #fff; text-shadow: 0 0 30px var(--frost); margin-bottom: 40px; }
-        .news-container { max-width: 900px; margin: 0 auto; }
-        .discord-news-iframe { width: 100%; height: 800px; border: none; border-radius: 8px; background: rgba(0,0,0,0.5); }
+        .bg-wrap { position: fixed; width: 100%; height: 100%; background: url('https://web.archive.org/web/20101204043250im_/http://www.worldofwarcraft.com/downloads/wallpapers/patch330/patch330-1280x1024.jpg') center/cover; z-index: -2; filter: brightness(0.12); }
 
-        /* BUTTONS & STATS */
-        .btn { display: block; text-align: center; padding: 8px; margin-top: 5px; border: 1px solid var(--frost); color: var(--frost); text-decoration: none; font-size: 12px; font-family: 'Cinzel'; }
-        .btn:hover { background: var(--frost); color: #000; box-shadow: 0 0 10px var(--frost); }
+        /* SIDEBAR */
+        aside { width: 320px; background: rgba(0,0,0,0.9); border-right: 1px solid rgba(163,228,255,0.15); padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+        .side-card { background: var(--panel); border: 1px solid #1a2a3a; padding: 20px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+        .side-card h2 { font-family: 'Cinzel'; color: var(--frost); font-size: 13px; margin: 0 0 12px 0; border-bottom: 1px solid #222; padding-bottom: 8px; }
+
+        /* MAIN CONTENT */
+        main { flex: 1; padding: 50px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        .hero-header { text-align: center; margin-bottom: 30px; }
+        .hero-header h1 { font-family: 'Cinzel'; font-size: 52px; margin: 0; color: #fff; text-shadow: 0 0 40px rgba(163, 228, 255, 0.5); letter-spacing: 12px; }
+        
+        .news-image { 
+            width: 100%; 
+            max-width: 1000px; 
+            height: 600px; 
+            background: url('https://wallpaperaccess.com/full/1154546.jpg') center/cover no-repeat; 
+            border: 2px solid rgba(163, 228, 255, 0.2); 
+            border-radius: 12px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .news-overlay {
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            width: 100%;
+            padding: 40px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn { display: block; text-align: center; padding: 12px; border: 1px solid var(--frost); color: var(--frost); text-decoration: none; font-size: 11px; font-family: 'Cinzel'; border-radius: 4px; transition: 0.3s; margin-top: 8px; }
+        .btn:hover { background: var(--frost); color: #000; box-shadow: 0 0 20px var(--frost); transform: scale(1.02); }
         .status-on { color: #00ffcc; font-weight: bold; }
         .status-off { color: #ff4444; font-weight: bold; }
-        .g { color: #d4af37; font-weight: bold; } .s { color: #c0c0c0; } .c { color: #b87333; }
+        .g { color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="bg-wrap"></div>
-    
-    <aside>
-        <h1 style="font-family:'Cinzel'; color:var(--frost); font-size:22px; text-align:center;">HAZARDOUS</h1>
-        
-        <div class="side-card">
-            <h2>REALM STATUS</h2>
-            <div style="display:flex; justify-content:space-between; font-size:13px;">
-                <span>World:</span><span class="<?=($status_data == "ONLINE" ? "status-on" : "status-off")?>"><?=$status_data?></span>
-            </div>
-            <div style="text-align:center; padding:10px 0;">
-                <span style="font-size:30px; color:#fff; font-family:'Cinzel';"><?=$online_players?></span><br>
-                <small>PLAYERS ONLINE</small>
-            </div>
-            <div style="font-size:11px; opacity:0.6;">UPTIME: <?=$uptime?></div>
-        </div>
-
-        <div class="side-card">
-            <h2>LIVE ZONE MAP</h2>
-            <div style="font-size:12px;">
-                <?php if(!empty($zones)): foreach($zones as $z): ?>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-                        <span>Zone #<?=$z['zone']?></span><span><?=$z['count']?> Players</span>
-                    </div>
-                <?php endforeach; else: ?>
-                    <span style="color:gray;">No data synced.</span>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <div class="side-card">
-            <h2>BLACK MARKET</h2>
-            <table style="width:100%; font-size:11px;">
-                <?php foreach(array_slice($auctions, 0, 3) as $a): ?>
-                    <tr><td><?=substr($a['name'],0,15)?>..</td><td><?=formatWoWGold($a['buyoutprice'])?></td></tr>
-                <?php endforeach; ?>
-            </table>
-            <a href="market.php" class="btn">Full Market</a>
-        </div>
-
-        <div class="side-card">
-            <h2>QUICK LINKS</h2>
-            <a href="register.php" class="btn">Create Account</a>
-            <a href="custom_gear.php" class="btn" style="border-color:#d4af37; color:#d4af37;">Custom Gear ($)</a>
-            <a href="https://discord.com" class="btn">Join Discord</a>
-        </div>
-    </aside>
-
-    <main>
-        <div class="hero-title">THE FROZEN THRONE</div>
-        <div class="news-container">
-            <iframe class="discord-news-iframe" src="https://widgetbot.io/channels/YOUR_SERVER_ID/YOUR_NEWS_CHANNEL_ID"></iframe>
-        </div>
-    </main>
-</body>
-</html>
+    <aside
