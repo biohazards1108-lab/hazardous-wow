@@ -1,33 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora:wght@400;700&display=swap');
-
-:root {
-    --lich-blue: #00d8ff;
-    --wow-gold: #f8b700;
-    --panel-bg: rgba(5, 5, 5, 0.95);
-    --border-blue: #1e3a5a;
-}
-
-body {
-    margin: 0;
-    background: #000 url('https://wallpaperaccess.com/full/1154546.jpg') no-repeat center top fixed;
-    background-size: cover;
-    color: #cbd5e0;
-    font-family: 'Lora', serif;
-}
-
-/* TOP LEFT GOLD/BLACK MENU */
+/* Navigation: Black & Gold Standout */
 .nav-bar {
     background: #000;
     border-bottom: 2px solid var(--wow-gold);
-    padding: 10px 0;
-    width: 100%;
+    padding: 12px 0;
 }
 
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: flex-start; /* Aligns to left */
+    justify-content: flex-start;
     padding-left: 20px;
 }
 
@@ -35,34 +17,26 @@ body {
     background: #111;
     color: var(--wow-gold);
     text-decoration: none;
-    font-family: 'Cinzel';
-    padding: 8px 20px;
-    margin-right: 10px;
+    font-family: 'Cinzel', serif;
+    padding: 10px 25px;
+    margin-right: 15px;
     border: 1px solid var(--wow-gold);
-    font-size: 0.9rem;
-    transition: 0.3s;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .nav-link:hover {
     background: var(--wow-gold);
     color: #000;
-    box-shadow: 0 0 10px var(--wow-gold);
+    box-shadow: 0 0 15px var(--wow-gold);
+    transform: translateY(-2px);
 }
 
-/* PANELS & CONTENT */
-.container { display: flex; max-width: 1200px; margin: 30px auto; gap: 25px; }
-.wow-panel { background: var(--panel-bg); border: 1px solid var(--wow-gold); padding: 25px; box-shadow: 0 0 30px #000; }
-.panel-title { font-family: 'Cinzel'; color: var(--wow-gold); text-align: center; border-bottom: 1px solid #222; margin-bottom: 20px; padding-bottom: 10px; }
-
-input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: #fff; }
-
-.btn-wow {
-    padding: 12px 30px;
-    font-family: 'Cinzel';
-    font-weight: bold;
-    cursor: pointer;
-    border: 1px solid #fff;
+/* Ensure footer exists */
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    color: #444;
 }
-
-.gold-btn { background: linear-gradient(to bottom, #f8b700, #8a6d2b); color: #000; }
-.gold-btn:hover { filter: brightness(1.2); }
