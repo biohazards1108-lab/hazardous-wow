@@ -1,6 +1,7 @@
 <?php 
 include('config.php'); 
 
+// 1. WoW Gold Formatter
 function formatWoWGold($copper) {
     $gold = floor($copper / 10000);
     $silver = floor(($copper % 10000) / 100);
@@ -12,8 +13,12 @@ function formatWoWGold($copper) {
     return $output;
 }
 
+// 2. Data Fetching
 $auctions = [];
-$query = "SELECT it.name, it.Quality, ah.buyoutprice, ah.itemowner FROM auctionhouse ah LEFT JOIN item_template it ON ah.itemguid = it.entry ORDER BY ah.buyoutprice DESC LIMIT 10";
+$query = "SELECT it.name, it.Quality, ah.buyoutprice, ah.itemowner 
+          FROM auctionhouse ah 
+          LEFT JOIN item_template it ON ah.itemguid = it.entry 
+          ORDER BY ah.buyoutprice DESC LIMIT 10";
 
 if (isset($conn) && !$conn->connect_error) {
     $result = $conn->query($query);
@@ -22,7 +27,7 @@ if (isset($conn) && !$conn->connect_error) {
             $qualities = [0=>'common', 1=>'common', 2=>'uncommon', 3=>'rare', 4=>'epic', 5=>'legendary'];
             $q_class = $qualities[$row['Quality'] ?? 0] ?? 'common';
             $auctions[] = [
-                'item' => $row['name'] ?? 'Unknown Item',
+                'item' => $row['name'] ?? 'Unknown Item (Import item_template!)',
                 'quality' => $q_class,
                 'price' => $row['buyoutprice'],
                 'seller' => 'Owner ID: ' . $row['itemowner']
@@ -31,13 +36,15 @@ if (isset($conn) && !$conn->connect_error) {
     } else {
         $auctions = [['item' => 'No Live Auctions Found', 'quality' => 'common', 'price' => 0, 'seller' => 'Marketplace']];
     }
+} else {
+    $auctions = [['item' => 'Database Offline', 'quality' => 'common', 'price' => 0, 'seller' => 'System']];
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hazardous WoW | Armory & Market</title>
+    <title>Hazardous WoW | Live Market</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {--ice-blue: #00ccff; --blizz-gold: #c4950d; --bg: #050a14; --legendary: #ff8000; --epic: #a335ee; --rare: #0070dd; }
