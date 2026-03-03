@@ -1,166 +1,75 @@
 :root {
-    --bright-blue: #00d2ff;
-    --ice-white: #e0f7ff;
-    --deep-void: #010811;
-    --gold-legendary: #ffcc00;
+    --ice-blue: #adebff;
+    --wow-gold: #c4a35a;
+    --dark-panel: rgba(10, 15, 25, 0.92);
+    --border-silver: #4a6a8a;
 }
 
 body {
     margin: 0;
-    background-color: var(--deep-void);
-    color: var(--ice-white);
-    font-family: 'Open Sans', sans-serif;
-    overflow-x: hidden;
-}
-
-/* BACKGROUND EFFECTS */
-.ice-background {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url('https://w.wallhaven.cc/full/8o/wallhaven-8o36oy.jpg') no-repeat center top;
+    padding: 0;
+    background: #000 url('https://wallpaperaccess.com/full/1154546.jpg') no-repeat center center fixed;
     background-size: cover;
-    z-index: -2;
+    color: #ddd;
+    font-family: 'Lora', serif;
 }
 
-.skulls-layer {
-    position: absolute;
-    bottom: 0; width: 100%; height: 400px;
-    background: linear-gradient(to top, rgba(1, 8, 17, 1), transparent),
-                url('https://www.transparenttextures.com/patterns/dark-matter.png');
-    opacity: 0.6;
-    z-index: -1;
-}
-
-/* TYPOGRAPHY */
-.main-title {
-    font-family: 'Cinzel', serif;
-    font-size: 5rem;
-    text-align: center;
-    color: var(--ice-white);
-    text-shadow: 0 0 20px var(--bright-blue), 0 0 40px #000;
-    margin-bottom: 0;
-}
-
-/* SHARDS (The Exotic Boxes) */
-.shard {
-    background: rgba(1, 15, 30, 0.8);
-    border: 1px solid rgba(0, 210, 255, 0.3);
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 210, 255, 0.1);
-    backdrop-filter: blur(8px);
-    border-radius: 2px;
-}
-
-.shard-header {
-    background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), transparent);
-    padding: 10px;
-    text-align: center;
-    font-family: 'Cinzel', serif;
-    letter-spacing: 2px;
-    color: var(--bright-blue);
-    border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-}
-
-/* INTERACTIVE ELEMENTS */
-.ice-input {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid #1a3a5a;
-    padding: 12px;
-    color: white;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-}
-
-.btn-summon {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(to bottom, #005a8d, #001a2d);
-    border: 1px solid var(--bright-blue);
-    color: var(--bright-blue);
-    font-family: 'Cinzel', serif;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-summon:hover {
-    background: var(--bright-blue);
-    color: black;
-    box-shadow: 0 0 15px var(--bright-blue);
-}
-
-/* STATUS PILL */
-.status-glow {
-    display: inline-block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-.online { background: #00ffcc; box-shadow: 0 0 10px #00ffcc; }
-
-/* GRID */
-.grid-layout {
+.container {
     display: grid;
-    grid-template-columns: 320px 1fr 320px;
-    gap: 40px;
-    padding: 40px;
-    max-width: 1500px;
-    margin: 0 auto;
-}
-#wow-tooltip {
-    position: absolute;
-    display: none;
-    z-index: 9999;
-    pointer-events: none;
-    background: rgba(1, 10, 20, 0.95);
-    border: 1px solid #3a5675;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
-    max-width: 250px;
-    font-family: 'Open Sans', sans-serif;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-.tt-name { font-size: 1.2rem; font-weight: bold; margin-bottom: 2px; }
-.tt-name.legendary { color: #ff8000; text-shadow: 0 0 5px #ff8000; }
-.tt-name.epic { color: #a335ee; }
-
-.tt-bind, .tt-slot { color: #fff; font-size: 0.85rem; }
-.tt-desc { color: #ffd100; font-style: italic; margin-top: 8px; font-size: 0.9rem; }
-.tt-requirement { color: #fff; font-size: 0.85rem; margin-top: 5px; }
-/* Armory Table Styling */
-.armory-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: rgba(0,0,0,0.3);
+/* The Iconic WoW Panel Look */
+.wow-panel {
+    background: var(--dark-panel);
+    border: 2px solid var(--border-silver);
+    border-image: linear-gradient(to bottom, #4a6a8a, #111) 1;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    position: relative;
 }
-.armory-table th {
-    text-align: left;
-    padding: 15px;
-    border-bottom: 2px solid var(--bright-blue);
-    color: var(--bright-blue);
+
+.panel-title {
+    font-family: 'Cinzel', serif;
+    color: var(--wow-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Blizzard Style Buttons */
+.btn-wow {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(to bottom, #c4a35a 0%, #8a6d2b 100%);
+    border: 1px solid #eee;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
     font-family: 'Cinzel';
+    text-transform: uppercase;
+    transition: 0.2s;
+    cursor: pointer;
 }
-.armory-table td {
-    padding: 15px;
-    border-bottom: 1px solid rgba(0, 210, 255, 0.1);
+
+.btn-wow:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 15px rgba(196, 163, 90, 0.4);
 }
-.gold-text { color: #ffcc00; font-weight: bold; }
 
-/* Item Quality Colors */
-.legendary { color: #ff8000 !important; text-shadow: 0 0 5px #ff8000; cursor: help; }
-
-/* The Tooltip Box */
-#wow-tooltip {
-    position: absolute;
-    display: none;
-    z-index: 9999;
-    pointer-events: none;
-    background: rgba(1, 10, 20, 0.95);
-    border: 1px solid #3a5675;
-    padding: 12px;
-    border-radius: 2px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    max-width: 280px;
+.realm-code {
+    background: #000;
+    color: var(--ice-blue);
+    padding: 5px;
+    display: block;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid #222;
 }
