@@ -1,38 +1,53 @@
 <?php 
-include('header.php'); // This contains your CSS and Nav
+include('header.php'); 
 include('config.php'); 
+
+// Fallback status if config isn't loaded
+$status = $status_data ?? "OFFLINE";
+$players = $online_players ?? "0";
 ?>
 
 <div class="container">
-    <div class="sidebar">
-        <div class="wow-panel">
-            <div class="panel-title">Realmlist</div>
-            <code class="realm-code">set realmlist logon.hazardous-wow.com</code>
-            
-            <div class="status-box">
-                <p>Status: <span class="online-text">Online</span></p>
-                <p>Players: <?php echo $online_players ?? '0'; ?></p>
+    <aside class="sidebar">
+        <div class="wow-panel status-panel">
+            <div class="panel-title">Realm Status</div>
+            <div class="status-row">
+                <span class="indicator <?php echo ($status == 'ONLINE') ? 'online' : 'offline'; ?>"></span>
+                <span class="realm-name">Hazardous Realm</span>
             </div>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <div class="hero-section">
-            <h1>HAZARDOUS <span class="gold">WoW</span></h1>
-            <p>Experience the Frozen Wastes like never before.</p>
-            <div class="button-group">
-                <a href="register.php" class="btn-wow main-btn">Create Account</a>
-                <a href="https://discord.gg/yourlink" class="btn-wow discord-btn">Join Discord</a>
+            <div class="player-count">
+                <strong><?php echo $players; ?></strong> Heroes Online
             </div>
+            <code class="realmlist">set realmlist logon.hazardous-wow.com</code>
         </div>
 
-        <div class="news-section">
-            <div class="wow-panel">
-                <div class="panel-title">Latest Updates</div>
-                <p>Check out our new <a href="custom_gear.php">Custom Gear</a> sets now available!</p>
+        <div class="wow-panel discord-widget">
+            <div class="panel-title">Community</div>
+            <a href="#" class="btn-wow discord-btn">Join Discord</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="hero-banner">
+            <div class="hero-text">
+                <h1>WRATH OF THE <br><span class="lich-blue">LICH KING</span></h1>
+                <p>The Frozen Throne awaits. Will you serve, or will you fall?</p>
+                <div class="hero-buttons">
+                    <a href="register.php" class="btn-wow gold-btn">Create Account</a>
+                    <a href="armory.php" class="btn-wow silver-btn">View Armory</a>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="wow-panel news-section">
+            <div class="panel-title">Latest Updates</div>
+            <div class="news-item">
+                <h3>Welcome to the Frozen North</h3>
+                <p>Hazardous WoW is officially live! Experience 1x rates, custom bug fixes, and a stable WotLK environment.</p>
+                <span class="news-date">March 2026</span>
+            </div>
+        </div>
+    </main>
 </div>
 
 <?php include('footer.php'); ?>
