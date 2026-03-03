@@ -15,8 +15,21 @@ $status_text = $connection ? "ONLINE" : "OFFLINE";
 $status_class = $connection ? "status-on" : "status-off";
 if($connection) fclose($connection);
 
-// Mock Uptime (For real uptime, you'd sync a timestamp from your server)
-$uptime = $connection ? "4d 12h 31m" : "0s";
+// Real Uptime Calculation
+$uptime = "Unknown";
+if (file_exists('uptime.txt') && $connection) {
+    $start_time = (int)file_get_contents('uptime.txt');
+    $diff = time() - $start_time;
+
+    $days = floor($diff / 86400);
+    $hours = floor(($diff % 86400) / 3600);
+    $mins = floor(($diff % 3600) / 60);
+    
+    $uptime = "{$days}d {$hours}h {$mins}m";
+} elseif (!$connection) {
+    $uptime = "OFFLINE";
+}
+
 
 // 3. WOW UTILITIES
 function formatWoWGold($copper) {
