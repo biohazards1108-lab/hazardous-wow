@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 /**
  * 1. REAL-TIME PLAYER COUNT
- * Reads from a local file 'online.txt' which your home server will update.
+ * Reads from 'online.txt' updated by your home server.
  */
 $online_players = 0;
 if (file_exists('online.txt')) {
@@ -118,63 +118,4 @@ function formatWoWGold($copper) {
         }
 
         .cta-button.primary { background: var(--frost-blue); color: var(--death-knell); font-weight: bold; }
-        .cta-button:hover { box-shadow: 0 0 30px rgba(163, 228, 255, 0.3); transform: translateY(-2px); }
-
-        .master-container {
-            max-width: 1200px;
-            margin: -60px auto 100px;
-            display: grid;
-            grid-template-columns: 2.5fr 1fr;
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        .main-panel, .sidebar-box {
-            background: var(--ice-gradient);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-        }
-
-        .section-title { font-family: 'Cinzel'; color: var(--frost-blue); font-size: 24px; margin-bottom: 20px; border-bottom: 1px solid rgba(163, 228, 255, 0.1); padding-bottom: 15px; }
-
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .player-count { font-size: 32px; color: #fff; font-family: 'Cinzel'; text-align: center; margin: 10px 0; text-shadow: 0 0 20px var(--frost-blue); }
-
-        .status-on { color: #00ffcc; font-weight: bold; }
-        .status-off { color: #ff4444; font-weight: bold; }
-
-        .dl-btn {
-            display: block;
-            background: rgba(163, 228, 255, 0.1);
-            border: 1px solid var(--frost-blue);
-            color: var(--frost-blue);
-            text-align: center;
-            padding: 12px;
-            text-decoration: none;
-            font-family: 'Cinzel';
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-
-        .dl-btn:hover { background: var(--frost-blue); color: #000; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; color: #555; font-size: 11px; text-transform: uppercase; padding: 10px; }
-        td { padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .q5 { color: #ff8000; text-shadow: 0 0 5px rgba(255,128,0,0.5); font-weight: bold; }
-        .g { color: var(--gold-leaf); font-weight: bold; }
-    </style>
-</head>
-<body>
-
-<div class="bg-wrap"></div>
-<div class="bg-overlay"></div>
-
-<nav class="top-bar">
-    <div class="nav-content">
-        <a href="index.php" class="nav-brand">HAZARDOUS</a>
-        <div class="nav-links">
-            <a href="index.php">Market</a>
-            <a href="register.php">Register</a>
-            <a href
+        .cta-button:hover { box-shadow: 0 0 30px
