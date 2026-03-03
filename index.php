@@ -7,15 +7,33 @@
     <title>LICH KING | Hazardous WoW</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --ice-blue: #00d4ff;
-            --gold: #c5a059;
-            --deep-black: #050505;
-            --panel-bg: rgba(10, 10, 10, 0.95);
-        }
+     :root {
+    --ice-blue: #00d4ff;
+    --gold: #c5a059;
+    --deep-black: #050505;
+    --panel-bg: rgba(10, 10, 10, 0.95);
+}
 
-        body { background: var(--deep-black); color: #e0e0e0; font-family: 'Montserrat', sans-serif; margin: 0; }
-        h1, h2, h3, .nav-logo { font-family: 'Cinzel', serif; text-transform: uppercase; }
+body { 
+    background-color: var(--deep-black) !important; 
+    color: #e0e0e0; 
+    margin: 0; 
+    padding: 0;
+}
+
+/* This is the tab style you asked for */
+.content-tab {
+    background: var(--panel-bg);
+    border: 2px solid #000; /* Black border by default */
+    padding: 40px;
+    transition: all 0.3s ease;
+    margin: 20px;
+}
+
+.content-tab:hover {
+    border-color: var(--gold); /* Changes to Gold on hover */
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.4); /* Gold glow */
+}
 
         /* Navigation */
         nav {
