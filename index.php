@@ -1,87 +1,121 @@
 <?php 
-// Standard includes - ensure these files exist in your directory!
-include('header.php'); 
-include('config.php'); 
+// We are going to wrap these in checks to prevent the site from breaking if the files are missing
+@include('header.php'); 
+@include('config.php'); 
 
-// Fallback data if config.php fails
-$status = $status_data ?? "ONLINE"; 
-$players = $online_players ?? "124";
+$status = isset($status_data) ? $status_data : "ONLINE";
+$players = isset($online_players) ? $online_players : "124";
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <title>Hazardous WoW</title>
     <style>
-        /* THE BLACK ICY BLUE THEME */
-        :root {
-            --ice-blue: #00d4ff;
-            --deep-blue: #001a2e;
-            --black: #050505;
-            --frost: #e0f7fa;
-            --panel-tint: rgba(0, 10, 20, 0.8);
+        /* FORCE RESET */
+        * { box-sizing: border-box; }
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            min-height: 100vh;
+            background: #000; /* Fallback */
         }
 
         body {
-            background: radial-gradient(circle at center, var(--deep-blue) 0%, var(--black) 100%);
-            background-attachment: fixed;
-            color: var(--frost);
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            /* Black Icy Blue Gradient */
+            background: radial-gradient(circle at center, #001a2e 0%, #000000 100%) no-repeat fixed;
+            color: #e0f7fa;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
         }
 
-        /* Essential Layout */
         .container {
             display: flex;
+            width: 100%;
             max-width: 1100px;
-            margin: 50px auto;
-            gap: 25px;
-            padding: 0 20px;
+            margin-top: 50px;
+            padding: 20px;
+            gap: 30px;
         }
 
-        /* Sidebar Styling */
-        .sidebar { width: 300px; }
+        /* SIDEBAR */
+        .sidebar { width: 300px; flex-shrink: 0; }
 
-        /* The WoW Panel Look */
+        /* MAIN CONTENT */
+        .main-content { flex-grow: 1; }
+
+        /* ICY PANELS */
         .wow-panel {
-            background: var(--panel-tint);
+            background: rgba(0, 20, 40, 0.7);
             border: 1px solid #1a3a5a;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
         }
 
         .panel-title {
-            color: var(--ice-blue);
-            text-transform: uppercase;
+            color: #00d4ff;
+            font-size: 1.2rem;
             font-weight: bold;
-            border-bottom: 1px solid #1a3a5a;
-            padding-bottom: 8px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #1a3a5a;
             margin-bottom: 15px;
+            padding-bottom: 5px;
             text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
         }
 
-        /* Text and Link Visibility Fixes */
-        h1, h2, h3 { color: var(--ice-blue); margin-top: 0; }
-        
-        a { 
-            color: var(--ice-blue) !important; 
-            text-decoration: none; 
-            transition: 0.3s;
+        /* BUTTONS */
+        .btn-wow {
+            display: inline-block;
+            background: linear-gradient(to bottom, #005f8d, #00d4ff);
+            color: #fff !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 3px;
+            text-shadow: 1px 1px 2px #000;
+            border: 1px solid #00d4ff;
         }
+
+        /* TEXT STYLES */
+        h1 { font-size: 3rem; margin: 0; line-height: 1; color: #fff; }
+        .lich-blue { color: #00d4ff; text-shadow: 0 0 20px #00d4ff; }
+        p { line-height: 1.6; color: #b0c4de; }
         
-        a:hover { color: #fff !important; text-shadow: 0 0 10px var(--ice-blue); }
-
-        /* Main Content & Hero */
-        .main-content { flex: 1; }
-
-        .hero-banner {
-            background: linear-gradient(45deg, rgba(0,0,0,0.9), rgba(0,43,54,0.4));
-            padding: 50px;
-            border-radius: 8px;
+        .realmlist {
+            display: block;
+            background: #000;
+            padding: 10px;
             border: 1px solid #1a3a5a;
-            margin-bottom:
+            color: #00d4ff;
+            font-family: monospace;
+            margin-top: 10px;
+        }
+
+        /* LINK FIX */
+        a { color: #00d4ff; text-decoration: none; }
+        a:hover { color: #fff; }
+
+        /* RESPONSIVE */
+        @media (max-width: 800px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <div class="wow-panel">
+            <div class="panel-title">Server Status</div>
+            <p>Status: <span style="color:#00ffcc; font-weight:bold;"><?php echo $status; ?></span></p>
+            <p>Online: <span style="color:#fff;"><?php echo $players; ?></span> Heroes</p>
+            <div class="realmlist">set realmlist hazardouswar.servegame.com</div>
+        </div>
+
+        <div class="wow-panel">
