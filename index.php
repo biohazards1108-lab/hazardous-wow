@@ -1,7 +1,6 @@
 <?php 
 include('config.php'); 
 
-// Function to format WoW Gold with icons
 function formatWoWGold($copper) {
     $gold = floor($copper / 10000);
     $silver = floor(($copper % 10000) / 100);
@@ -13,12 +12,8 @@ function formatWoWGold($copper) {
     return $output;
 }
 
-// Fetch Real Data from your successful AuctionHouse import
 $auctions = [];
-$query = "SELECT it.name, it.Quality, ah.buyoutprice, ah.itemowner 
-          FROM auctionhouse ah 
-          LEFT JOIN item_template it ON ah.itemguid = it.entry 
-          ORDER BY ah.buyoutprice DESC LIMIT 10";
+$query = "SELECT it.name, it.Quality, ah.buyoutprice, ah.itemowner FROM auctionhouse ah LEFT JOIN item_template it ON ah.itemguid = it.entry ORDER BY ah.buyoutprice DESC LIMIT 10";
 
 if (isset($conn) && !$conn->connect_error) {
     $result = $conn->query($query);
@@ -48,19 +43,19 @@ if (isset($conn) && !$conn->connect_error) {
         :root {--ice-blue: #00ccff; --blizz-gold: #c4950d; --bg: #050a14; --legendary: #ff8000; --epic: #a335ee; --rare: #0070dd; }
         body { margin: 0; background: var(--bg); color: #e0e0e0; font-family: 'Open Sans', sans-serif; }
         .mmo-nav { position: fixed; left: 0; top: 0; bottom: 0; width: 80px; background: rgba(0,0,0,0.9); border-right: 1px solid var(--ice-blue); display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
-        .nav-item { width: 40px; height: 40px; margin-bottom: 30px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; }
+        .nav-item { width: 40px; height: 40px; margin-bottom: 30px; border: 1px solid #333; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
         .content-area { margin-left: 80px; padding: 40px; }
         .header-banner { height: 250px; background: linear-gradient(to bottom, transparent, var(--bg)), url('https://images.alphacoders.com/204/204172.jpg'); background-size: cover; border-radius: 10px; display: flex; align-items: flex-end; padding: 40px; }
         .ah-container { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 40px; }
         .ah-table { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 5px; padding: 20px; }
-        .ah-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #111; }
+        .ah-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #111; align-items: center; }
         .quality-legendary { color: var(--legendary); text-shadow: 0 0 5px var(--legendary); }
         .quality-epic { color: var(--epic); }
         .quality-rare { color: var(--rare); }
         .armory-box { background: rgba(0,0,0,0.5); padding: 30px; border: 1px solid var(--blizz-gold); border-radius: 5px; }
         input { width: 100%; padding: 15px; background: #000; border: 1px solid #444; color: white; margin-bottom: 15px; }
-        .btn-gold { width: 100%; padding: 15px; background: var(--blizz-gold); border: none; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; }
-        code { background: #111; padding: 10px 25px; border: 1px dashed var(--ice-blue); color: var(--ice-blue); }
+        .btn-gold { width: 100%; padding: 15px; background: var(--blizz-gold); border: none; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; color: white; }
+        code { background: #111; padding: 10px 25px; border: 1px dashed var(--ice-blue); color: var(--ice-blue); font-family: monospace; }
     </style>
 </head>
 <body>
@@ -79,7 +74,7 @@ if (isset($conn) && !$conn->connect_error) {
                 <?php foreach($auctions as $auc): ?>
                 <div class="ah-row">
                     <div>
-                        <span class="quality-<?php echo $auc['quality']; ?>" style="font-weight:bold;">
+                        <span class="quality-<?php echo $auc['quality']; ?>" style="font-weight:bold; font-size:18px;">
                             <?php echo $auc['item']; ?>
                         </span>
                         <div style="font-size:11px; color:#666;"><?php echo $auc['seller']; ?></div>
@@ -97,7 +92,7 @@ if (isset($conn) && !$conn->connect_error) {
             </div>
         </div>
         <div style="text-align:center; margin-top:50px;">
-            <code>set realmlist hazardous.gamer.gd</code>
+            <code>set realmlist hazardouswar.servegame.com</code>
         </div>
     </div>
 </body>
