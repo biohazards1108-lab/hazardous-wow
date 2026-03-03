@@ -1,3 +1,7 @@
+:root {
+    --wow-gold: #f8b700;
+    --lich-blue: #00d8ff;
+}
 /* Navigation: Black & Gold Standout */
 .nav-bar {
     background: #000;
