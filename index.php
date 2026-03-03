@@ -1,7 +1,7 @@
 <?php
 // 1. SILENT DISCORD FUNCTION (Won't break the page if it fails)
 function send_to_discord($message, $webhook_url) {
-    if (!$webhook_url || $webhook_url == 'YOUR_WEBHOOK_HERE') return;
+    if (!$webhook_url || $webhook_url == 'https://discord.gg/zJbxpRFP') return;
 
     $data = json_encode([
         "username" => "Hazardous Bot",
@@ -25,8 +25,8 @@ function send_to_discord($message, $webhook_url) {
 
 // 2. DEFINE YOUR CHANNELS
 $reg_webhook = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr";
-$bug_webhook = "YOUR_BUG_WEBHOOK"; // Update this
-$update_webhook = "YOUR_UPDATES_WEBHOOK"; // Update this
+$bug_webhook = "https://discord.com/api/webhooks/1476634364090519622/xcPFqB7Qg3Mip--zu_Y0iYsCbJ6XTsj7Q5AVKPSmestbsuBPFdFfG1zjy-tVtsT4N9XY"; // Update this
+$update_webhook = "https://discord.com/api/webhooks/1477193815109406865/tBZK0h7y0n_e8PyJQXOEoMAv69WtDtp4DYODdmHmATkH_TjG2BKR2lSGkdcee-VEFBfX"; // Update this
 
 // 3. HANDLE ACTIONS
 if (isset($_GET['action'])) {
