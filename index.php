@@ -1,147 +1,133 @@
 <?php
 @include('config.php');
 
-// Fetching Data (Add your DB/File logic here)
+// --- CONFIGURATION ---
+$webhook_url = "https://discord.com/api/webhooks/1476721940944388288/BAcRYm0PYlhgfWwuy7QgryZ9JqxHtFkhvrEa7fPSHZGp37nCav32sBzI1acqad1c4sgr"; 
+
+// --- DISCORD REGISTER LOGIC ---
+$msg = "";
+if (isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $class = $_POST['char_class'];
+
+    $data = [
+        "content" => "🛡️ **New Account Created!**",
+        "embeds" => [[
+            "title" => "New Hero Arrived",
+            "color" => 3447003,
+            "fields" => [
+                ["name" => "Username", "value" => $username, "inline" => true],
+                ["name" => "Email", "value" => $email, "inline" => true],
+                ["name" => "Intended Class", "value" => $class, "inline" => true]
+            ]
+        ]]
+    ];
+
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => json_encode($data),
+        ],
+    ];
+    $context  = stream_context_create($options);
+    file_get_contents($webhook_url, false, $context);
+    $msg = "Account Request Sent to Discord!";
+}
+
+// Fetching Status Data
 $status = (file_exists('status.txt')) ? trim(file_get_contents('status.txt')) : 'OFFLINE';
 $online = (file_exists('online.txt')) ? trim(file_get_contents('online.txt')) : '0';
-$uptime = (file_exists('uptime.txt')) ? trim(file_get_contents('uptime.txt')) : '0h 0m';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HAZARDOUS | Wrath of the Lich King</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <title>HAZARDOUS WoW | Wrath of the Lich King</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ice-blue: #adebff;
-            --death-knight: #1a2e38;
+            --ice: #adebff;
             --gold: #c4a35a;
-            --panel-bg: rgba(5, 10, 15, 0.9);
+            --panel-bg: rgba(10, 15, 25, 0.95);
+            --border: 2px solid #2a3f5a;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #ddd;
-            font-family: 'Lora', serif;
-            overflow-x: hidden;
+            margin: 0; background: #000; color: #ddd;
+            font-family: 'Lora', serif; overflow-x: hidden;
         }
 
-        /* Video/Static Background */
         .master-bg {
-            position: fixed;
-            top: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; width: 100%; height: 100%;
             background: url('https://wallpaperaccess.com/full/1154546.jpg') no-repeat center center fixed;
-            background-size: cover;
-            z-index: -1;
-            filter: brightness(0.4) contrast(1.2);
+            background-size: cover; z-index: -1; filter: brightness(0.3);
         }
 
         .container {
-            display: grid;
-            grid-template-columns: 280px 1fr 280px;
-            gap: 20px;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
+            display: grid; grid-template-columns: 300px 1fr; gap: 30px;
+            max-width: 1400px; margin: 0 auto; padding: 40px;
         }
 
-        /* Side Panels */
-        aside {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .panel {
+        /* SIDEBAR */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        
+        .wow-panel {
             background: var(--panel-bg);
-            border: 2px solid #2a3f5a;
+            border: var(--border);
             border-image: linear-gradient(to bottom, #4a6a8a, #1a2e38) 1;
-            padding: 15px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .panel-header {
-            font-family: 'Cinzel', serif;
-            color: var(--ice-blue);
-            font-size: 0.9rem;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            text-shadow: 0 0 10px rgba(173, 235, 255, 0.5);
+        .panel-title {
+            font-family: 'Cinzel'; color: var(--gold);
+            font-size: 1rem; text-align: center;
+            border-bottom: 1px solid #333; margin-bottom: 15px;
         }
 
-        /* Navigation Links */
-        .nav-list { list-style: none; padding: 0; margin: 0; }
-        .nav-list li { margin-bottom: 8px; }
-        .nav-list a {
-            display: block;
-            padding: 10px;
-            background: rgba(255,255,255,0.05);
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.85rem;
-            border-left: 3px solid transparent;
+        /* FORMS & INPUTS */
+        input, select, textarea {
+            width: 100%; padding: 10px; margin-bottom: 10px;
+            background: #050a14; border: 1px solid #2a3f5a;
+            color: #fff; box-sizing: border-box;
+        }
+
+        .btn-wow {
+            width: 100%; padding: 12px; background: linear-gradient(#c4a35a, #8a6d2b);
+            border: 1px solid #fff; color: #000; font-family: 'Cinzel';
+            font-weight: bold; cursor: pointer; text-transform: uppercase;
+        }
+
+        .btn-wow:hover { filter: brightness(1.2); }
+
+        /* GEAR GALLERY */
+        .gear-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px; margin-top: 20px;
+        }
+
+        .gear-slot {
+            aspect-ratio: 1; background: #050a14;
+            border: 2px solid #333; position: relative;
+            display: flex; align-items: center; justify-content: center;
             transition: 0.3s;
         }
-        .nav-list a:hover {
-            background: rgba(173, 235, 255, 0.1);
-            border-left: 3px solid var(--ice-blue);
-            color: white;
-            padding-left: 15px;
+
+        .gear-slot:hover { border-color: var(--ice); box-shadow: 0 0 15px var(--ice); }
+        
+        .gear-slot::after {
+            content: "Epic Item"; position: absolute; bottom: 5px;
+            font-size: 10px; color: #a335ee; font-weight: bold;
         }
 
-        /* Main Center Content */
-        main {
-            text-align: center;
+        .hero-section { text-align: center; margin-bottom: 40px; }
+        .hero-section h1 { 
+            font-family: 'Cinzel'; font-size: 5rem; color: #fff; 
+            text-shadow: 0 0 30px var(--ice); margin: 0;
         }
-
-        .hero-title {
-            font-family: 'Cinzel', serif;
-            font-size: 4rem;
-            margin: 40px 0 10px 0;
-            color: #fff;
-            text-shadow: 0 0 20px var(--ice-blue), 2px 2px 5px #000;
-            letter-spacing: 5px;
-        }
-
-        .status-bar {
-            background: rgba(0,0,0,0.6);
-            display: inline-block;
-            padding: 5px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--ice-blue);
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-        }
-
-        .big-cta {
-            background: url('https://www.transparenttextures.com/patterns/dark-matter.png'), linear-gradient(#1e3c72, #2a5298);
-            padding: 40px;
-            border: 3px solid var(--gold);
-            margin-top: 200px; /* Offset for Lich King visual */
-            border-radius: 5px;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-        }
-
-        .btn-gold {
-            background: linear-gradient(#c4a35a, #8a6d2b);
-            color: #000;
-            padding: 15px 35px;
-            font-family: 'Cinzel';
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 3px;
-            display: inline-block;
-            margin-top: 20px;
-            border: 1px solid #fff;
-        }
-
-        .status-on { color: #00ffcc; }
-        .status-off { color: #ff4444; }
 
     </style>
 </head>
@@ -150,9 +136,23 @@ $uptime = (file_exists('uptime.txt')) ? trim(file_get_contents('uptime.txt')) : 
 <div class="master-bg"></div>
 
 <div class="container">
-    <aside>
-        <div class="panel">
-            <div class="panel-header">NAVIGATION</div>
-            <ul class="nav-list">
-                <li><a href="armory.php">⚔️ ARMORY</a></li>
-                <li><a href="auction.php">⚖️ AUCTION HOUSE</a></li>
+    <div class="sidebar">
+        <div class="wow-panel">
+            <div class="panel-title">CREATE ACCOUNT</div>
+            <?php if($msg) echo "<p style='color:var(--ice); font-size:12px;'>$msg</p>"; ?>
+            <form method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email Address" required>
+                <select name="char_class">
+                    <option value="Death Knight">Death Knight</option>
+                    <option value="Paladin">Paladin</option>
+                    <option value="Warrior">Warrior</option>
+                </select>
+                <button type="submit" name="register" class="btn-wow">Join the Scourge</button>
+            </form>
+        </div>
+
+        <div class="wow-panel">
+            <div class="panel-title">MENU</div>
+            <button class="btn-wow" onclick="location.href='armory.php'" style="margin-bottom:5px;">Armory</button>
+            <button class="btn-wow" onclick="location.href='auction.php'"
