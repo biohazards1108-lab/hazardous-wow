@@ -1,10 +1,30 @@
 <?php 
-// 1. DATABASE & ERROR HANDLING
 include('config.php'); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+// 1. Connect to the Characters Database
+// Replace these with your actual characters database credentials
+$char_db_host = 'localhost';
+$char_db_user = 'auth';
+$char_db_pass = 'Darkbishop1109';
+$char_db_name = 'characters'; 
 
-// 2. WOW UTILITIES
+$char_conn = new mysqli($char_db_host, $char_db_user, $char_db_pass, $char_db_name);
+
+if ($char_conn->connect_error) {
+    $online_players = 0; // Fallback if connection fails
+} else {
+    // 2. Fetch the real count
+    $result = $char_conn->query("SELECT COUNT(*) AS total FROM characters WHERE online = 1");
+    if ($result) {
+        $row = $result->fetch_assoc();
+        $online_players = $row['total'];
+    } else {
+        $online_players = 0;
+    }
+    $char_conn->close();
+}
+// WoW Gold Formatting
 function formatWoWGold($copper) {
     $gold = floor($copper / 10000);
     $silver = floor(($copper % 10000) / 100);
@@ -12,51 +32,70 @@ function formatWoWGold($copper) {
     return "<span class='g'>$gold</span> <span class='s'>$silver</span> <span class='c'>$cp</span>";
 }
 
-// 3. SERVER STATUS CHECK
+// Server Status & Player Count
 $realm_ip = "hazardouswar.servegame.com";
 $realm_port = 8085;
 $connection = @fsockopen($realm_ip, $realm_port, $errno, $errstr, 1);
 $status_text = $connection ? "ONLINE" : "OFFLINE";
 $status_class = $connection ? "status-on" : "status-off";
+
+// Mock Player Count (Replace with your SOAP or DB query if available)
+$online_players = $connection ? rand(15, 45) : 0; 
+
 if($connection) fclose($connection);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HAZARDOUS WoW | The Frozen Throne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Quicksand:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        /* --- ARTHAS THEME CORE --- */
         :root {
-            --gold: #c4950d;
-            --ice-blue: #00ccff;
-            --blood-red: #880000;
-            --dk-black: #02050a;
-            --panel-bg: rgba(5, 10, 20, 0.95);
+            --frost-blue: #a3e4ff;
+            --lich-blue: #00334d;
+            --death-knell: #050b14;
+            --gold-leaf: #d4af37;
+            --dk-purple: #301934;
+            --ice-gradient: linear-gradient(180deg, rgba(10, 25, 41, 0.95) 0%, rgba(2, 5, 10, 1) 100%);
         }
 
         body {
             margin: 0;
-            padding: 0;
-            background: var(--dk-black);
-            color: #bdc3c7;
-            font-family: 'Times New Roman', serif;
-            background-image: url('https://web.archive.org/web/20101204043250im_/http://www.worldofwarcraft.com/downloads/wallpapers/patch330/patch330-1280x1024.jpg');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
+            background: var(--death-knell);
+            color: #d1d1d1;
+            font-family: 'Quicksand', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* --- DETAILED NAVIGATION --- */
-        .top-bar {
-            background: linear-gradient(to bottom, #111, #000);
-            border-bottom: 2px solid var(--gold);
-            padding: 10px 0;
+        h1, h2, h3, .nav-brand { font-family: 'Cinzel', serif; }
+
+        /* --- BACKGROUND --- */
+        .bg-wrap {
             position: fixed;
-            width: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://web.archive.org/web/20101204043250im_/http://www.worldofwarcraft.com/downloads/wallpapers/patch330/patch330-1280x1024.jpg') center/cover no-repeat;
+            z-index: -2;
+            filter: brightness(0.3) grayscale(0.3);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 10%, var(--death-knell) 100%);
+            z-index: -1;
+        }
+
+        /* --- NAVIGATION --- */
+        .top-bar {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(163, 228, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
             top: 0;
-            z-index: 9999;
-            box-shadow: 0 5px 20px #000;
+            z-index: 1000;
         }
 
         .nav-content {
@@ -65,175 +104,106 @@ if($connection) fclose($connection);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
         }
 
-        .nav-brand {
-            font-size: 24px;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        .nav-brand { color: var(--frost-blue); text-decoration: none; font-size: 26px; letter-spacing: 3px; }
 
         .nav-links a {
             color: #fff;
             text-decoration: none;
-            margin-left: 30px;
-            font-size: 14px;
+            margin-left: 25px;
+            font-size: 13px;
             text-transform: uppercase;
             transition: 0.3s;
-            border: 1px solid transparent;
-            padding: 5px 10px;
         }
 
-        .nav-links a:hover {
-            color: var(--ice-blue);
-            border: 1px solid var(--ice-blue);
-            background: rgba(0, 204, 255, 0.1);
+        .nav-links a:hover { color: var(--frost-blue); text-shadow: 0 0 10px var(--frost-blue); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        /* --- CONTENT WRAPPER --- */
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(0, 204, 255, 0.6);
+            letter-spacing: 15px;
+        }
+
+        .hero p { color: var(--frost-blue); font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.8; }
+
+        /* --- BUTTONS --- */
+        .btn-group { display: flex; gap: 20px; }
+        .cta-button {
+            padding: 16px 35px;
+            border: 1px solid var(--frost-blue);
+            color: var(--frost-blue);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            transition: 0.4s;
+            background: rgba(163, 228, 255, 0.05);
+        }
+
+        .cta-button.primary {
+            background: var(--frost-blue);
+            color: var(--death-knell);
+            font-weight: bold;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 30px rgba(163, 228, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTENT --- */
         .master-container {
             max-width: 1200px;
-            margin: 120px auto 50px;
+            margin: -60px auto 100px;
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 2.5fr 1fr;
             gap: 30px;
+            padding: 0 20px;
         }
 
-        /* --- AUCTION HOUSE PANEL --- */
-        .main-panel {
-            background: var(--panel-bg);
-            border: 1px solid #333;
-            border-top: 4px solid var(--blood-red);
+        .main-panel, .sidebar-box {
+            background: var(--ice-gradient);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 30px;
-            box-shadow: 0 0 30px #000;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
         }
 
         .section-title {
-            color: var(--gold);
-            font-size: 32px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #333;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
+            font-family: 'Cinzel';
+            color: var(--frost-blue);
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: ""; height: 1px; flex-grow: 1; background: linear-gradient(90deg, var(--frost-blue), transparent);
+        }
+
+        /* --- SIDEBAR ELEMENTS --- */
+        .stat-row {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background: rgba(255,255,255,0.05);
-            color: var(--ice-blue);
-            padding: 15px;
-            text-align: left;
-            text-transform: uppercase;
-            font-size: 13px;
-        }
-
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #111;
-            font-size: 15px;
-        }
-
-        tr:hover { background: rgba(255,255,255,0.02); }
-
-        /* --- ITEM QUALITY COLORS --- */
-        .q5 { color: #ff8000; text-shadow: 0 0 10px #ff8000; font-weight: bold; }
-        .q4 { color: #a335ee; text-shadow: 0 0 5px #a335ee; }
-        .q3 { color: #0070dd; }
-        .q2 { color: #1eff00; }
-
-        /* --- SIDEBAR --- */
-        .sidebar-box {
-            background: var(--panel-bg);
-            border: 1px solid #222;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .status-on { color: #1eff00; font-weight: bold; }
-        .status-off { color: var(--blood-red); font-weight: bold; }
-
-        /* --- GOLD ICONS --- */
-        .g { color: #d4af37; font-weight: bold; }
-        .s { color: #c0c0c0; font-weight: bold; }
-        .c { color: #b87333; font-weight: bold; }
-
-    </style>
-</head>
-<body>
-
-<div class="top-bar">
-    <div class="nav-content">
-        <a href="#" class="nav-brand">Hazardous WoW</a>
-        <div class="nav-links">
-            <a href="index.php">Market</a>
-            <a href="armory.php">Armory</a>
-            <a href="register.php">Create Account</a>
-            <a href="login.php">Login</a>
-            <a href="dashboard.php">Player Panel</a>
-        </div>
-    </div>
-</div>
-
-<div class="master-container">
-    <div class="main-panel">
-        <div class="section-title">
-            <span>Black Market Auctions</span>
-            <span style="font-size:14px; color:#555;">Live Data from Northrend</span>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Bid Price</th>
-                    <th>Seller</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $sql = "SELECT it.name, it.Quality, ah.buyoutprice, ah.itemowner 
-                        FROM auctionhouse ah 
-                        LEFT JOIN item_template it ON ah.itemguid = it.entry 
-                        ORDER BY ah.buyoutprice DESC LIMIT 20";
-                $res = $conn->query($sql);
-
-                if ($res && $res->num_rows > 0) {
-                    while($row = $res->fetch_assoc()) {
-                        $quality = "q" . ($row['Quality'] ?? 0);
-                        $name = !empty($row['name']) ? strtoupper($row['name']) : "LEGENDARY ARTIFACT";
-                        echo "<tr>
-                                <td class='$quality'>$name</td>
-                                <td>" . formatWoWGold($row['buyoutprice']) . "</td>
-                                <td style='color:#444;'>ID: {$row['itemowner']}</td>
-                              </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3' style='text-align:center;'>The Scourge has cleared the market...</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="sidebar">
-        <div class="sidebar-box" style="border-top: 3px solid var(--ice-blue);">
-            <h3 style="color: var(--ice-blue); margin-top:0;">REALM STATUS</h3>
-            <p style="font-size:13px;">Server: <span class="<?php echo $status_class; ?>"><?php echo $status_text; ?></span></p>
-            <p style="font-size:11px; color:#666;">hazardouswar.servegame.com</p>
-        </div>
-
-        <div class="sidebar-box" style="border-top: 3px solid var(--gold);">
-            <h3 style="color: var(--gold); margin-top:0;">PATCH 3.3.5</h3>
-            <p style="font-size:13px; line-height:1.6;">Welcome to <b>Hazardous WoW</b>. Experience the Wrath of the Lich King with increased rates and a custom Black Market.</p>
-        </div>
-        
-        <div class="sidebar-box" style="border-top: 3px solid var(--blood
+        .player-count {
+            font-size: 24px;
+            color: #fff;
+            font-family: 'Cinzel
