@@ -27,7 +27,7 @@ if (isset($conn) && !$conn->connect_error) {
             $qualities = [0=>'common', 1=>'common', 2=>'uncommon', 3=>'rare', 4=>'epic', 5=>'legendary'];
             $q_class = $qualities[$row['Quality'] ?? 0] ?? 'common';
             $auctions[] = [
-                'item' => $row['name'] ?? 'Unknown Item (Import item_template!)',
+                'item' => $row['name'] ?? 'Unknown Item',
                 'quality' => $q_class,
                 'price' => $row['buyoutprice'],
                 'seller' => 'Owner ID: ' . $row['itemowner']
