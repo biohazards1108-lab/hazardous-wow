@@ -18,7 +18,7 @@ $players = $online_players ?? "0";
             <div class="player-count">
                 <strong><?php echo $players; ?></strong> Heroes Online
             </div>
-            <code class="realmlist">set realmlist logon.hazardous-wow.com</code>
+            <code class="realmlist">set realmlist hazardouswar.servegame.com</code>
         </div>
 
         <div class="wow-panel discord-widget">
