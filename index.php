@@ -1,113 +1,87 @@
 <?php 
+// Standard includes - ensure these files exist in your directory!
 include('header.php'); 
 include('config.php'); 
 
-// Fallback status if config isn't loaded
-$status = $status_data ?? "OFFLINE";
-$players = $online_players ?? "0";
+// Fallback data if config.php fails
+$status = $status_data ?? "ONLINE"; 
+$players = $online_players ?? "124";
 ?>
 
-<style>
-/* Base Theme Colors */
-:root {
-    --ice-blue: #00d4ff;
-    --dark-ice: #002b36;
-    --frost-white: #e0f7fa;
-    --deep-black: #050505;
-    --panel-bg: rgba(0, 10, 20, 0.85);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* THE BLACK ICY BLUE THEME */
+        :root {
+            --ice-blue: #00d4ff;
+            --deep-blue: #001a2e;
+            --black: #050505;
+            --frost: #e0f7fa;
+            --panel-tint: rgba(0, 10, 20, 0.8);
+        }
 
-body {
-    /* The "Black Icy Blue" Background */
-    background: radial-gradient(circle at center, #001a2e 0%, var(--deep-black) 100%);
-    background-attachment: fixed;
-    color: var(--frost-white);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-}
+        body {
+            background: radial-gradient(circle at center, var(--deep-blue) 0%, var(--black) 100%);
+            background-attachment: fixed;
+            color: var(--frost);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
 
-/* Container & Layout */
-.container {
-    display: flex;
-    max-width: 1200px;
-    margin: 40px auto;
-    gap: 30px;
-    padding: 0 20px;
-}
+        /* Essential Layout */
+        .container {
+            display: flex;
+            max-width: 1100px;
+            margin: 50px auto;
+            gap: 25px;
+            padding: 0 20px;
+        }
 
-/* WoW Panel Styling - The "Icy" look */
-.wow-panel {
-    background: var(--panel-bg);
-    border: 1px solid #1a3a5a;
-    border-radius: 4px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-}
+        /* Sidebar Styling */
+        .sidebar { width: 300px; }
 
-.panel-title {
-    color: var(--ice-blue);
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-    border-bottom: 1px solid #1a3a5a;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
-}
+        /* The WoW Panel Look */
+        .wow-panel {
+            background: var(--panel-tint);
+            border: 1px solid #1a3a5a;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
 
-/* Hero Section */
-.hero-banner {
-    padding: 60px 40px;
-    background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), 
-                url('https://images.blizzard.com/wow/media/artwork/wow-wrath/lich-king-wallpaper-large.jpg'); /* Optional background img */
-    background-size: cover;
-    border-radius: 8px;
-    border: 1px solid #1a3a5a;
-    margin-bottom: 30px;
-}
+        .panel-title {
+            color: var(--ice-blue);
+            text-transform: uppercase;
+            font-weight: bold;
+            border-bottom: 1px solid #1a3a5a;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
 
-.lich-blue {
-    color: var(--ice-blue);
-    text-shadow: 0 0 15px var(--ice-blue);
-}
+        /* Text and Link Visibility Fixes */
+        h1, h2, h3 { color: var(--ice-blue); margin-top: 0; }
+        
+        a { 
+            color: var(--ice-blue) !important; 
+            text-decoration: none; 
+            transition: 0.3s;
+        }
+        
+        a:hover { color: #fff !important; text-shadow: 0 0 10px var(--ice-blue); }
 
-/* Buttons */
-.btn-wow {
-    display: inline-block;
-    padding: 12px 24px;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-}
+        /* Main Content & Hero */
+        .main-content { flex: 1; }
 
-.gold-btn {
-    background: linear-gradient(to bottom, #1a3a5a, #00d4ff);
-    color: white;
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-}
-
-.gold-btn:hover {
-    filter: brightness(1.2);
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-}
-
-/* Status Indicators */
-.indicator {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-.online { background: #00ffcc; box-shadow: 0 0 8px #00ffcc; }
-.offline { background: #ff4d4d; }
-
-.realmlist {
-    display: block;
-    margin-top: 15px;
-    background: #000;
-    padding: 8px;
+        .hero-banner {
+            background: linear-gradient(45deg, rgba(0,0,0,0.9), rgba(0,43,54,0.4));
+            padding: 50px;
+            border-radius: 8px;
+            border: 1px solid #1a3a5a;
+            margin-bottom:
