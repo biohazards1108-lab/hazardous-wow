@@ -4,19 +4,24 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 /**
- * 1. REAL-TIME PLAYER COUNT
- * Connects to the 'characters' table to see who is actually online.
+ * 1. REAL-TIME PLAYER COUNT (With Error Catching)
  */
 $online_players = 0;
-$count_query = $conn->query("SELECT COUNT(*) AS total FROM characters WHERE online = 1");
-if ($count_query) {
-    $count_row = $count_query->fetch_assoc();
-    $online_players = $count_row['total'];
+
+// We wrap this in a try/catch so the whole website doesn't crash if the table is missing
+try {
+    $count_query = $conn->query("SELECT COUNT(*) AS total FROM characters WHERE online = 1");
+    if ($count_query) {
+        $count_row = $count_query->fetch_assoc();
+        $online_players = $count_row['total'];
+    }
+} catch (mysqli_sql_exception $e) {
+    // If the table doesn't exist, we just show 0 instead of crashing the site
+    $online_players = 0; 
 }
 
 /**
  * 2. SERVER STATUS CHECK
- * Checks if the world server port is open.
  */
 $realm_ip = "hazardouswar.servegame.com";
 $realm_port = 8085;
@@ -24,6 +29,9 @@ $connection = @fsockopen($realm_ip, $realm_port, $errno, $errstr, 1);
 $status_text = $connection ? "ONLINE" : "OFFLINE";
 $status_class = $connection ? "status-on" : "status-off";
 if($connection) fclose($connection);
+
+// ... rest of your code functions ...
+?>
 
 /**
  * 3. WOW UTILITIES
