@@ -4,7 +4,7 @@ session_start();
 // InfinityFree MySQL Details
 $db_host = 'sqlXXX.infinityfree.com'; // Change to your actual SQL Host
 $db_user = 'if0_XXXXXX';              // Change to your actual Username
-$db_pass = 'YourPassword';            // Change to your actual Password
+$db_pass = 'Darkbishop1109';            // Change to your actual Password
 $db_auth = 'if0_XXXXXX_auth';         // Your Auth DB
 $db_char = 'if0_XXXXXX_char';         // Your Characters DB
 
