@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-$db_host = '127.0.0.1';
-$db_user = 'root';
-$db_pass = 'ascent';
-$db_auth = 'auth';       // Database for accounts
-$db_char = 'characters'; // Database for characters
+// InfinityFree MySQL Details
+$db_host = 'sqlXXX.infinityfree.com'; // Change to your actual SQL Host
+$db_user = 'if0_XXXXXX';              // Change to your actual Username
+$db_pass = 'YourPassword';            // Change to your actual Password
+$db_auth = 'if0_XXXXXX_auth';         // Your Auth DB
+$db_char = 'if0_XXXXXX_char';         // Your Characters DB
 
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_auth);
 $char_conn = new mysqli($db_host, $db_user, $db_pass, $db_char);
 
-// Check connections
 if ($conn->connect_error || $char_conn->connect_error) {
-    die("Database Connection Failed.");
+    die("Connection failed");
 }
 ?>
