@@ -11,6 +11,12 @@ $result = $query->get_result();
 ?>
 
 <style>
+    :root {
+    --ice-blue: #00d4ff;
+    --gold: #c5a059;
+    --deep-black: #050505;
+    --panel-bg: rgba(10, 10, 10, 0.95);
+}
     .account-container {
         max-width: 900px;
         margin: 120px auto;
