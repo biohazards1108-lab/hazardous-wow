@@ -1,17 +1,17 @@
 <?php
 session_start();
 
-// InfinityFree MySQL Details
-$db_host = 'sqlXXX.infinityfree.com'; // Change to your actual SQL Host
-$db_user = 'if0_XXXXXX';              // Change to your actual Username
-$db_pass = 'Darkbishop1109';            // Change to your actual Password
-$db_auth = 'if0_XXXXXX_auth';         // Your Auth DB
-$db_char = 'if0_XXXXXX_char';         // Your Characters DB
+// Real InfinityFree MySQL Details
+$db_host = 'sql100.infinityfree.com'; 
+$db_user = 'if0_41282500'; 
+$db_pass = 'Darkbishop1109'; 
+$db_auth = 'if0_41282500_auth'; 
 
+// Create connection
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_auth);
-$char_conn = new mysqli($db_host, $db_user, $db_pass, $db_char);
 
-if ($conn->connect_error || $char_conn->connect_error) {
-    die("Connection failed");
+// Check connection
+if ($conn->connect_error) {
+    die("Database Connection Failed: " . $conn->connect_error);
 }
 ?>
