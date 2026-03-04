@@ -2,7 +2,7 @@
 session_start();
 
 // Real InfinityFree MySQL Details
-$db_host = 'sql100.infinityfree.com'; 
+$db_host = 'sql205.infinityfree.com'; 
 $db_user = 'if0_41282500'; 
 $db_pass = 'Darkbishop1109'; 
 $db_auth = 'if0_41282500_auth'; 
